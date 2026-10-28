@@ -1,0 +1,135 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - G15 Velocity</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAVBAR ADMIN -->
+    <header class="navbar">
+        <div class="nav-brand">Admin Panel G15</div>
+        <button id="btnLogout" class="btn-logout" style="display: none;">Logout</button>
+    </header>
+
+    <main class="admin-container">
+        <!-- SECTION LOGIN -->
+        <section id="loginSection" class="card login-card">
+            <h2>Login Admin</h2>
+            <form id="loginForm">
+                <input type="email" id="email" placeholder="Email Admin" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit" class="btn-primary">Masuk</button>
+            </form>
+            <p id="loginMessage" class="error-msg"></p>
+        </section>
+
+        <!-- SECTION DASHBOARD (Sembunyi sebelum login) -->
+        <!-- SECTION DASHBOARD -->
+        <section id="dashboardSection" style="display: none;">
+            
+            <div class="admin-grid">
+                <!-- 1. KELOLA BERANDA (Hanya Teks) -->
+                <div class="card">
+                    <h3>A. Tambah Beranda & Profil</h3>
+                    <form id="formBeranda">
+                        <select id="tipeBeranda" required>
+                            <option value="profil">Profil</option>
+                            <option value="anggota">Anggota</option>
+                        </select>
+                        <input type="text" id="judulBeranda" placeholder="Judul / Nama" required>
+                        <label style="font-size: 13px; color: var(--text-muted);">Isi Teks:</label>
+                        <!-- Wadah untuk Editor Teks -->
+                        <div id="editorBeranda" style="height: 120px; background: white;"></div>
+                        <button type="submit" class="btn-primary" style="margin-top: 15px;">Simpan Beranda</button>
+                    </form>
+                </div>
+
+                <!-- 2. KELOLA MATERI (Teks + Kategori) -->
+                <div class="card">
+                    <h3>B & C. Tambah Materi</h3>
+                    <form id="formMateri">
+                        <select id="kategoriMateri" required onchange="updateSubKategori()">
+                            <option value="kebidanan">B. Materi Kebidanan</option>
+                            <option value="umum">C. Materi Umum</option>
+                        </select>
+                        <select id="subKategoriMateri" required>
+                            <!-- Opsi akan diisi otomatis oleh JS berdasarkan pilihan di atas -->
+                            <option value="anc">ANC</option>
+                            <option value="inc">INC</option>
+                            <option value="pnc">PNC</option>
+                            <option value="kehamilan_sehat">Kehamilan Sehat</option>
+                        </select>
+                        <input type="text" id="judulMateri" placeholder="Judul Materi" required>
+                        <label style="font-size: 13px; color: var(--text-muted);">Isi Materi:</label>
+                        <div id="editorMateri" style="height: 120px; background: white;"></div>
+                        <button type="submit" class="btn-primary" style="margin-top: 15px;">Simpan Materi</button>
+                    </form>
+                </div>
+
+                <!-- 3. KELOLA GALERI (Hanya Upload) -->
+                <div class="card">
+                    <h3>D. Tambah Galeri (Foto/Video)</h3>
+                    <form id="formGaleri">
+                        <select id="tipeGaleri" required>
+                            <option value="foto">Foto</option>
+                            <option value="video">Video</option>
+                        </select>
+                        <input type="text" id="judulGaleri" placeholder="Judul / Keterangan File" required>
+                        <label style="font-size: 13px; color: var(--text-muted); margin-bottom: -10px;">Upload File:</label>
+                        <input type="file" id="urlGaleri" accept="image/*,video/*" required>
+                        <button type="submit" class="btn-primary">Upload & Simpan</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- DAFTAR KONTEN UNTUK DIHAPUS (BERANDA, MATERI, GALERI) -->
+            <div class="admin-grid" style="margin-top: 20px;">
+                <div class="card">
+                    <h3>Daftar Beranda</h3>
+                    <ul id="listBerandaAdmin" class="admin-list"></ul>
+                </div>
+                <div class="card">
+                    <h3>Daftar Materi</h3>
+                    <ul id="listMateriAdmin" class="admin-list"></ul>
+                </div>
+                <div class="card">
+                    <h3>Daftar Galeri</h3>
+                    <ul id="listGaleriAdmin" class="admin-list"></ul>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Script Quill Editor -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+        // Logika untuk mengubah Sub Kategori dinamis
+        function updateSubKategori() {
+            const kategori = document.getElementById('kategoriMateri').value;
+            const sub = document.getElementById('subKategoriMateri');
+            if (kategori === 'kebidanan') {
+                sub.innerHTML = `
+                    <option value="anc">ANC</option>
+                    <option value="inc">INC</option>
+                    <option value="pnc">PNC</option>
+                    <option value="kehamilan_sehat">Kehamilan Sehat</option>
+                `;
+            } else {
+                sub.innerHTML = `
+                    <option value="kesehatan">Kesehatan Umum</option>
+                    <option value="gizi">Gizi</option>
+                `;
+            }
+        }
+    </script>
+    <!-- Menggunakan module JS -->
+    <script type="module" src="js/admin.js"></script>
+</body>
+</html>
