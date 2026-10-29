@@ -487,9 +487,20 @@
     <!-- MODAL FULL ARTIKEL -->
     <div id="articleModal" class="fixed inset-0 bg-white z-[100] hidden overflow-y-auto">
         <div class="max-w-3xl mx-auto px-6 py-8">
-            <button onclick="tutupArtikel()" class="mb-6 flex items-center gap-2 text-brand-600 hover:text-white font-bold bg-brand-50 hover:bg-brand-500 shadow-sm px-5 py-2.5 rounded-full transition-all text-sm w-fit border border-brand-200">
-                <i class="fas fa-arrow-left"></i> Kembali
-            </button>
+            
+            <!-- WADAH TOMBOL KIRI KANAN (ARTIKEL) -->
+            <div class="flex items-center justify-between mb-8 w-full">
+                <!-- Tombol Kembali hanya menutup modal artikel -->
+                <button onclick="tutupArtikel()" class="flex items-center gap-2 text-brand-700 hover:text-white font-bold bg-brand-100 hover:bg-brand-500 shadow-sm px-4 md:px-5 py-2.5 rounded-full text-xs md:text-sm transition-all w-fit border border-brand-200">
+                    <i class="fas fa-arrow-left"></i> <span class="hidden sm:inline">Tutup Artikel</span><span class="inline sm:hidden">Kembali</span>
+                </button>
+                
+                <!-- Tombol Beranda: Menutup modal sekaligus pindah ke Dashboard -->
+                <button onclick="tutupArtikel(); switchPage('dashboard')" class="flex items-center gap-2 text-white hover:text-brand-900 font-bold bg-brand-500 hover:bg-brand-200 shadow-sm px-4 md:px-5 py-2.5 rounded-full text-xs md:text-sm transition-all w-fit border border-brand-500">
+                    <i class="fas fa-home"></i> Beranda
+                </button>
+            </div>
+            
             <div id="articleContent" class="pb-20"></div>
         </div>
     </div>
