@@ -248,9 +248,17 @@
         <!-- SECTION 2B: ISI KONTEN KEBIDANAN -->
         <section id="materi-kebidanan" class="page-section hidden py-12 min-h-screen">
             <div class="max-w-7xl mx-auto px-4">
-                <button onclick="switchPage('menu-kebidanan')" class="mb-8 flex items-center gap-2 text-brand-700 hover:text-white font-bold bg-brand-100 hover:bg-brand-500 shadow-sm px-5 py-2.5 rounded-full text-sm transition-all w-fit">
-                    <i class="fas fa-arrow-left"></i> Kembali ke Menu Modul
-                </button>
+                
+                <!-- WADAH TOMBOL KIRI KANAN -->
+                <div class="flex items-center justify-between mb-8 w-full">
+                    <button onclick="switchPage('menu-kebidanan')" class="flex items-center gap-2 text-brand-700 hover:text-white font-bold bg-brand-100 hover:bg-brand-500 shadow-sm px-4 md:px-5 py-2.5 rounded-full text-xs md:text-sm transition-all w-fit border border-brand-200">
+                        <i class="fas fa-arrow-left"></i> <span class="hidden sm:inline">Kembali ke Menu Modul</span><span class="inline sm:hidden">Kembali</span>
+                    </button>
+                    <button onclick="switchPage('dashboard')" class="flex items-center gap-2 text-white hover:text-brand-900 font-bold bg-brand-500 hover:bg-brand-200 shadow-sm px-4 md:px-5 py-2.5 rounded-full text-xs md:text-sm transition-all w-fit border border-brand-500">
+                        <i class="fas fa-home"></i> Beranda
+                    </button>
+                </div>
+                
                 <div class="border-b border-brand-200 pb-4 mb-8" data-aos="fade-right">
                     <span class="text-brand-500 font-bold text-xs uppercase tracking-widest">KATEGORI MODUL</span>
                     <h2 id="judul-kategori-kebidanan" class="text-3xl font-extrabold text-brand-900 mt-1">Materi</h2>
@@ -304,9 +312,17 @@
         <!-- SECTION 4B: ISI KONTEN GALERI -->
         <section id="galeri-detail" class="page-section hidden py-12 min-h-screen">
             <div class="max-w-7xl mx-auto px-4">
-                <button onclick="switchPage('menu-galeri')" class="mb-8 flex items-center gap-2 text-brand-700 hover:text-white font-bold bg-brand-100 hover:bg-brand-500 shadow-sm px-5 py-2.5 rounded-full text-sm transition-all w-fit">
-                    <i class="fas fa-arrow-left"></i> Kembali ke Menu Galeri
-                </button>
+                
+                <!-- WADAH TOMBOL KIRI KANAN -->
+                <div class="flex items-center justify-between mb-8 w-full">
+                    <button onclick="switchPage('menu-galeri')" class="flex items-center gap-2 text-brand-700 hover:text-white font-bold bg-brand-100 hover:bg-brand-500 shadow-sm px-4 md:px-5 py-2.5 rounded-full text-xs md:text-sm transition-all w-fit border border-brand-200">
+                        <i class="fas fa-arrow-left"></i> <span class="hidden sm:inline">Kembali ke Menu Galeri</span><span class="inline sm:hidden">Kembali</span>
+                    </button>
+                    <button onclick="switchPage('dashboard')" class="flex items-center gap-2 text-white hover:text-brand-900 font-bold bg-brand-500 hover:bg-brand-200 shadow-sm px-4 md:px-5 py-2.5 rounded-full text-xs md:text-sm transition-all w-fit border border-brand-500">
+                        <i class="fas fa-home"></i> Beranda
+                    </button>
+                </div>
+                
                 <div class="border-b border-brand-200 pb-4 mb-8" data-aos="fade-right">
                     <span class="text-brand-500 font-bold text-xs uppercase tracking-widest">KATEGORI MEDIA</span>
                     <h2 id="judul-kategori-galeri" class="text-3xl font-extrabold text-brand-900 mt-1">Galeri</h2>
@@ -476,6 +492,22 @@
             </button>
             <div id="articleContent" class="pb-20"></div>
         </div>
+    </div>
+
+    <!-- MODAL FULL MEDIA (GALERI) -->
+    <div id="mediaModal" class="fixed inset-0 bg-black/95 z-[110] hidden flex flex-col justify-center items-center p-4 backdrop-blur-md">
+        <!-- Tombol Tutup (X) -->
+        <button onclick="tutupMedia()" class="absolute top-6 right-6 lg:top-8 lg:right-10 text-white/50 hover:text-white text-4xl z-50 transition-transform hover:rotate-90">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <!-- Wadah Gambar / Video -->
+        <div id="mediaModalContent" class="w-full max-w-6xl flex justify-center items-center relative shadow-2xl">
+            <!-- Disuntikkan lewat JS -->
+        </div>
+        
+        <!-- Judul Media -->
+        <h3 id="mediaModalTitle" class="text-white mt-6 text-lg md:text-2xl font-bold text-center tracking-wide drop-shadow-md px-4"></h3>
     </div>
 
     <!-- SCRIPT LIBRARY AOS DAN QUILL -->

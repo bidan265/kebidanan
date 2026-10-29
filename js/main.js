@@ -242,18 +242,54 @@ window.bukaGaleri = function(tipe) {
         container.innerHTML = filtered.map((item, index) => {
             const delay = (index % 6) * 100;
             return `
-            <div data-aos="zoom-in" data-aos-delay="${delay}" class="bg-white rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg shadow-brand-100/50 hover:shadow-2xl transition-all border border-brand-100 relative group aspect-square lg:aspect-auto lg:h-64">
+            <div onclick="bukaMediaUtuh('${item.id}')" data-aos="zoom-in" data-aos-delay="${delay}" class="bg-black rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg shadow-brand-100/50 hover:shadow-2xl transition-all border border-brand-100 relative group aspect-square lg:aspect-auto lg:h-64 cursor-pointer">
+                
                 ${item.tipe === 'video' 
-                    ? `<video src="${item.media_url}" class="w-full h-full object-cover bg-brand-900" controls></video>`
+                    ? `<video src="${item.media_url}" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity"></video>
+                       <!-- Ikon Play di tengah untuk video -->
+                       <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                           <i class="fas fa-play-circle text-white/80 text-4xl lg:text-6xl group-hover:scale-110 transition-transform"></i>
+                       </div>`
                     : `<img src="${item.media_url}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">`
                 }
-                <div class="absolute bottom-0 w-full bg-gradient-to-t from-brand-900 via-brand-900/80 to-transparent p-3 pt-8 lg:p-5 lg:pt-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <p class="text-white font-bold text-xs lg:text-sm tracking-wide leading-tight">${item.judul}</p>
+                
+                <!-- Teks Hover (Ditambah pointer-events-none agar tidak menghalangi klik) -->
+                <div class="absolute bottom-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-4 pt-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none flex items-end">
+                    <p class="text-white font-bold text-xs lg:text-sm tracking-wide leading-tight drop-shadow-md"><i class="${item.tipe === 'foto' ? 'fas fa-camera' : 'fas fa-video'} text-brand-400 mr-2"></i>${item.judul}</p>
                 </div>
             </div>`
         }).join('');
     }
     window.switchPage('galeri-detail');
+}
+
+// BUKA MEDIA LAYAR PENUH
+window.bukaMediaUtuh = function(id) {
+    const item = allGaleri.find(m => String(m.id) === String(id));
+    if(!item) return;
+
+    const content = document.getElementById('mediaModalContent');
+    const title = document.getElementById('mediaModalTitle');
+
+    title.innerText = item.judul;
+
+    if (item.tipe === 'video') {
+        // Render Player Video berukuran penuh
+        content.innerHTML = `<video src="${item.media_url}" class="w-full max-h-[80vh] rounded-xl shadow-[0_0_40px_rgba(39,174,210,0.4)]" controls autoplay playsinline></video>`;
+    } else {
+        // Render Gambar berukuran penuh
+        content.innerHTML = `<img src="${item.media_url}" class="w-full max-h-[85vh] object-contain rounded-xl shadow-[0_0_40px_rgba(26,156,200,0.3)]">`;
+    }
+
+    document.getElementById('mediaModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+window.tutupMedia = function() {
+    document.getElementById('mediaModal').classList.add('hidden');
+    document.body.style.overflow = 'auto';
+    // Menghapus elemen agar video berhenti memutar (stop) saat modal ditutup
+    document.getElementById('mediaModalContent').innerHTML = ''; 
 }
 
 window.switchPage = function(targetSectionId) {
