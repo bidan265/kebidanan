@@ -3,26 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Kebidanan & Kesehatan - G15 Velocity</title>
+    <title>Mahasiswa Bidan Bahagia</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    
+    <!-- AOS ANIMATION LIBRARY CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+    <!-- KONFIGURASI PALET WARNA "OCEAN BREEZE" -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        brand: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d', 800: '#166534' }
+                        brand: { 
+                            50: '#F2FBFE', 100: '#AFE4F6', 200: '#7CD1ED', 300: '#4ABDE4',
+                            400: '#27AED2', 500: '#1A9CC8', 600: '#147A9D', 700: '#0F5872',
+                            800: '#0B3C65', 900: '#062036', 
+                        }
                     }
                 }
             }
         }
     </script>
     <style>
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
         .group:hover .dropdown-menu { display: block; opacity: 1; transform: translateY(0); }
         .dropdown-menu { display: none; opacity: 0; transform: translateY(10px); transition: opacity 0.2s ease, transform 0.2s ease; }
         #mobile-sidebar { transition: transform 0.3s ease-in-out; }
@@ -31,275 +39,369 @@
         .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
+<body class="bg-brand-50 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
 
     <!-- TOP BAR -->
-    <header class="bg-slate-900 text-slate-300 text-xs py-2 px-4">
+    <header class="bg-brand-900 text-brand-100 text-xs py-2 px-4 border-b border-brand-800">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div><i class="fas fa-phone-alt text-brand-500 mr-1"></i> +62 812-3456-7890</div>
-            <button onclick="toggleAdminModal()" class="bg-brand-600 hover:bg-brand-700 text-white px-3 py-1 rounded text-xs transition flex items-center gap-1 font-medium shadow-sm">
+            <div><i class="fas fa-phone-alt text-brand-400 mr-1"></i> +62 812-3456-7890</div>
+            <button onclick="toggleAdminModal()" class="bg-brand-500 hover:bg-brand-400 text-white px-3 py-1 rounded text-xs transition flex items-center gap-1 font-medium shadow-sm">
                 <i class="fas fa-user-shield"></i> Kelola CMS Admin
             </button>
         </div>
     </header>
 
     <!-- NAVBAR DESKTOP -->
-    <nav class="sticky top-0 z-40 bg-slate-800 text-white shadow-lg border-b border-slate-700">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
-            <button onclick="openSidebar()" class="lg:hidden text-brand-400 font-bold text-sm flex items-center gap-2">
+    <nav class="sticky top-0 z-40 bg-brand-800 text-white shadow-lg border-b border-brand-700">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-20">
+            <button onclick="openSidebar()" class="lg:hidden text-brand-100 font-bold text-sm flex items-center gap-2">
                 <i class="fas fa-bars text-xl"></i> MENU
             </button>
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-full bg-brand-600 flex items-center justify-center font-bold text-white text-xl">
-                    <i class="fas fa-user-nurse"></i>
+            
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchPage('dashboard')">
+                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-inner overflow-hidden p-1 hover:scale-105 transition">
+                    <img src="img/logokampus.png" alt="Logo Univ" class="w-full h-full object-contain">
                 </div>
                 <div>
-                    <h1 class="font-bold text-base md:text-lg text-white leading-none">AKADEMI KEBIDANAN</h1>
-                    <p class="text-[10px] text-brand-400 font-semibold tracking-widest uppercase">G15 Velocity Developer</p>
+                    <h1 class="font-bold text-sm md:text-lg text-white leading-none tracking-wide">Mahasiswa Bidan Bahagia</h1>
+                    <p class="text-[10px] text-brand-200 font-semibold tracking-widest uppercase mt-1">Program Studi Kebidanan</p>
                 </div>
             </div>
 
             <ul class="hidden lg:flex items-center space-x-1 font-medium text-sm">
+                <li><button onclick="switchPage('dashboard')" class="px-3.5 py-2 rounded-md hover:bg-brand-700 text-brand-50 hover:text-white transition">Beranda</button></li>
+                
                 <li class="relative group">
-                    <a href="#profil" class="px-3.5 py-2 rounded-md hover:bg-slate-700 text-slate-100 hover:text-brand-400">A. Beranda <i class="fas fa-chevron-down text-xs opacity-70 ml-1"></i></a>
-                    <div class="dropdown-menu absolute left-0 w-48 bg-slate-800 border border-slate-700 rounded-b-lg shadow-xl py-2 z-50">
-                        <a href="#profil" class="block px-4 py-2 hover:bg-brand-600 text-slate-300">1. Profil Institusi</a>
-                        <a href="#anggota" class="block px-4 py-2 hover:bg-brand-600 text-slate-300">2. Tim & Anggota</a>
+                    <button onclick="switchPage('menu-kebidanan')" class="px-3.5 py-2 rounded-md hover:bg-brand-700 text-brand-50 hover:text-white transition">Materi Kebidanan <i class="fas fa-chevron-down text-xs opacity-70 ml-1"></i></button>
+                    <div class="dropdown-menu absolute left-0 w-56 bg-brand-800 border border-brand-700 rounded-b-lg shadow-xl py-2 z-50">
+                        <button onclick="bukaMateriKebidanan('anc')" class="w-full text-left px-4 py-2 hover:bg-brand-600 text-brand-50">Kehamilan / ANC</button>
+                        <button onclick="bukaMateriKebidanan('inc')" class="w-full text-left px-4 py-2 hover:bg-brand-600 text-brand-50">Persalinan / INC</button>
+                        <button onclick="bukaMateriKebidanan('pnc')" class="w-full text-left px-4 py-2 hover:bg-brand-600 text-brand-50">Nifas / PNC</button>
+                        <button onclick="bukaMateriKebidanan('kehamilan_sehat')" class="w-full text-left px-4 py-2 hover:bg-brand-600 text-brand-50">Kehamilan Sehat</button>
                     </div>
                 </li>
+                <li><button onclick="switchPage('materi-umum')" class="px-3.5 py-2 rounded-md hover:bg-brand-700 text-brand-50 hover:text-white transition">Materi Umum</button></li>
+                
                 <li class="relative group">
-                    <a href="#materi-kebidanan" class="px-3.5 py-2 rounded-md hover:bg-slate-700 text-slate-100 hover:text-brand-400">B. Materi Kebidanan <i class="fas fa-chevron-down text-xs opacity-70 ml-1"></i></a>
-                    <div class="dropdown-menu absolute left-0 w-56 bg-slate-800 border border-slate-700 rounded-b-lg shadow-xl py-2 z-50">
-                        <a href="#materi-kebidanan" onclick="filterMateri('anc')" class="block px-4 py-2 hover:bg-brand-600 text-slate-300">1.a ANC</a>
-                        <a href="#materi-kebidanan" onclick="filterMateri('inc')" class="block px-4 py-2 hover:bg-brand-600 text-slate-300">1.b INC</a>
-                        <a href="#materi-kebidanan" onclick="filterMateri('pnc')" class="block px-4 py-2 hover:bg-brand-600 text-slate-300">1.c PNC</a>
-                        <a href="#materi-kebidanan" onclick="filterMateri('kehamilan_sehat')" class="block px-4 py-2 hover:bg-brand-600 text-slate-300">2. Kehamilan Sehat</a>
+                    <button onclick="switchPage('menu-galeri')" class="px-3.5 py-2 rounded-md hover:bg-brand-700 text-brand-50 hover:text-white transition">Galeri <i class="fas fa-chevron-down text-xs opacity-70 ml-1"></i></button>
+                    <div class="dropdown-menu absolute left-0 w-40 bg-brand-800 border border-brand-700 rounded-b-lg shadow-xl py-2 z-50">
+                        <button onclick="bukaGaleri('foto')" class="w-full text-left px-4 py-2 hover:bg-brand-600 text-brand-50"><i class="fas fa-camera mr-2"></i> Foto</button>
+                        <button onclick="bukaGaleri('video')" class="w-full text-left px-4 py-2 hover:bg-brand-600 text-brand-50"><i class="fas fa-video mr-2"></i> Video</button>
                     </div>
                 </li>
-                <li class="relative group">
-                    <a href="#materi-umum" class="px-3.5 py-2 rounded-md hover:bg-slate-700 text-slate-100 hover:text-brand-400">C. Materi Umum <i class="fas fa-chevron-down text-xs opacity-70 ml-1"></i></a>
-                    <div class="dropdown-menu absolute left-0 w-52 bg-slate-800 border border-slate-700 rounded-b-lg shadow-xl py-2 z-50">
-                        <a href="#materi-umum" onclick="filterMateri('kesehatan')" class="block px-4 py-2 hover:bg-brand-600 text-slate-300">a. Kesehatan Ibu & Anak</a>
-                        <a href="#materi-umum" onclick="filterMateri('gizi')" class="block px-4 py-2 hover:bg-brand-600 text-slate-300">b. Gizi & Nutrisi</a>
-                    </div>
+                
+                <li>
+                    <a href="https://abnus.siakadcloud.com/spmbfront/" target="_blank" class="ml-2 px-4 py-2 rounded-md bg-brand-400 hover:bg-brand-500 text-brand-900 font-bold transition flex items-center gap-2 shadow-sm border border-brand-300">
+                        <i class="fas fa-graduation-cap"></i> Pendaftaran PMB
+                    </a>
                 </li>
-                <li><a href="#galeri" class="px-3.5 py-2 rounded-md hover:bg-slate-700 text-slate-100 hover:text-brand-400">D. Galeri</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- SIDEBAR MOBILE -->
-    <div id="mobile-sidebar-overlay" onclick="closeSidebar()" class="fixed inset-0 bg-black/60 z-50 hidden backdrop-blur-sm"></div>
-    <aside id="mobile-sidebar" class="fixed top-0 left-0 w-80 max-w-[85vw] h-full bg-slate-900 text-slate-200 z-50 sidebar-closed overflow-y-auto p-4 space-y-4">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-            <span class="font-bold text-white">NAVIGASI UTAMA</span>
-            <button onclick="closeSidebar()" class="text-slate-400 hover:text-white"><i class="fas fa-times text-xl"></i></button>
+    <div id="mobile-sidebar-overlay" onclick="closeSidebar()" class="fixed inset-0 bg-brand-900/80 z-50 hidden backdrop-blur-sm"></div>
+    <aside id="mobile-sidebar" class="fixed top-0 left-0 w-80 max-w-[85vw] h-full bg-brand-900 text-brand-50 z-50 sidebar-closed overflow-y-auto p-4 space-y-4 shadow-2xl">
+        <div class="flex justify-between items-center border-b border-brand-800 pb-3">
+            <span class="font-bold text-white flex items-center gap-2">
+                <img src="img/logokampus.png" alt="Logo" class="w-6 h-6 bg-white rounded-full p-0.5"> MENU NAVIGASI
+            </span>
+            <button onclick="closeSidebar()" class="text-brand-300 hover:text-white"><i class="fas fa-times text-xl"></i></button>
         </div>
-        <a href="#profil" onclick="closeSidebar()" class="block py-2 text-brand-400 font-semibold">A. Beranda & Profil</a>
-        <a href="#materi-kebidanan" onclick="closeSidebar()" class="block py-2 text-brand-400 font-semibold">B. Materi Kebidanan</a>
-        <a href="#materi-umum" onclick="closeSidebar()" class="block py-2 text-brand-400 font-semibold">C. Materi Umum</a>
-        <a href="#galeri" onclick="closeSidebar()" class="block py-2 text-brand-400 font-semibold">D. Galeri Media</a>
+        
+        <button onclick="switchPage('dashboard'); closeSidebar()" class="w-full text-left py-2 text-brand-200 font-semibold hover:text-white transition">Beranda & Profil</button>
+        
+        <div class="py-1">
+            <button onclick="toggleMobileMenu('mob-menu-kebidanan')" class="w-full text-left py-2 text-brand-200 font-semibold hover:text-white transition flex justify-between items-center">
+                Materi Kebidanan <i class="fas fa-chevron-down text-xs"></i>
+            </button>
+            <div id="mob-menu-kebidanan" class="pl-4 mt-2 mb-2 space-y-3 border-l border-brand-700 hidden">
+                <button onclick="bukaMateriKebidanan('anc'); closeSidebar()" class="block w-full text-left text-brand-300 hover:text-white text-sm">Kehamilan / ANC</button>
+                <button onclick="bukaMateriKebidanan('inc'); closeSidebar()" class="block w-full text-left text-brand-300 hover:text-white text-sm">Persalinan / INC</button>
+                <button onclick="bukaMateriKebidanan('pnc'); closeSidebar()" class="block w-full text-left text-brand-300 hover:text-white text-sm">Nifas / PNC</button>
+                <button onclick="bukaMateriKebidanan('kehamilan_sehat'); closeSidebar()" class="block w-full text-left text-brand-300 hover:text-white text-sm">Kehamilan Sehat</button>
+            </div>
+        </div>
+
+        <button onclick="switchPage('materi-umum'); closeSidebar()" class="w-full text-left py-2 text-brand-200 font-semibold hover:text-white transition">Materi Umum</button>
+        
+        <div class="py-1">
+            <button onclick="toggleMobileMenu('mob-menu-galeri')" class="w-full text-left py-2 text-brand-200 font-semibold hover:text-white transition flex justify-between items-center">
+                Galeri Media <i class="fas fa-chevron-down text-xs"></i>
+            </button>
+            <div id="mob-menu-galeri" class="pl-4 mt-2 mb-2 space-y-3 border-l border-brand-700 hidden">
+                <button onclick="bukaGaleri('foto'); closeSidebar()" class="block w-full text-left text-brand-300 hover:text-white text-sm"><i class="fas fa-camera w-5"></i> Album Foto</button>
+                <button onclick="bukaGaleri('video'); closeSidebar()" class="block w-full text-left text-brand-300 hover:text-white text-sm"><i class="fas fa-video w-5"></i> Galeri Video</button>
+            </div>
+        </div>
+
+        <a href="https://abnus.siakadcloud.com/spmbfront/" target="_blank" class="block py-3 mt-4 text-center bg-brand-500 hover:bg-brand-400 text-white rounded-lg font-bold shadow-md transition">
+            Pendaftaran PMB
+        </a>
     </aside>
 
-    <!-- SECTION A. BERANDA & PROFIL -->
-    <section id="profil" class="py-16 bg-white border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="text-brand-600 font-bold text-xs uppercase tracking-widest">A. BERANDA & PROFIL</span>
-                <h2 class="text-3xl font-bold text-slate-900 mt-1">Profil Institusi & Tim Ahli</h2>
-                <div class="w-16 h-1 bg-brand-500 mx-auto mt-3 rounded-full"></div>
-            </div>
+    <main class="flex-grow">
+        
+        <!-- SECTION 1: DASHBOARD & PROFIL -->
+        <!-- Perbaikan: Grid Mobile diubah ke grid-cols-2 -->
+        <section id="dashboard" class="page-section py-10 lg:py-16 min-h-screen active overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4">
+                
+                <!-- CARD UTAMA: 4 KARTU (2 KOLOM HP, 4 KOLOM DESKTOP) -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-16 lg:mb-20">
+                    <button onclick="switchPage('menu-kebidanan')" data-aos="zoom-in" data-aos-delay="100" class="bg-gradient-to-br from-brand-800 to-brand-700 hover:from-brand-900 hover:to-brand-800 text-white py-8 lg:py-12 px-4 rounded-3xl shadow-[0_10px_30px_-10px_rgba(11,60,101,0.6)] transition-all transform hover:-translate-y-2 text-center group border border-brand-600/50">
+                        <div class="w-12 h-12 lg:w-16 lg:h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-3 lg:mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-book-medical text-2xl lg:text-3xl text-brand-100"></i>
+                        </div>
+                        <h2 class="font-extrabold text-sm lg:text-xl tracking-widest text-white drop-shadow-md">KEBIDANAN</h2>
+                        <p class="text-brand-100 text-[10px] lg:text-xs mt-1 lg:mt-2 font-medium">Modul Materi</p>
+                    </button>
+                    
+                    <button onclick="switchPage('materi-umum')" data-aos="zoom-in" data-aos-delay="200" class="bg-gradient-to-br from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white py-8 lg:py-12 px-4 rounded-3xl shadow-[0_10px_30px_-10px_rgba(26,156,200,0.6)] transition-all transform hover:-translate-y-2 text-center group border border-brand-400/50">
+                        <div class="w-12 h-12 lg:w-16 lg:h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-3 lg:mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-newspaper text-2xl lg:text-3xl text-white"></i>
+                        </div>
+                        <h2 class="font-extrabold text-sm lg:text-xl tracking-widest text-white drop-shadow-md">ARTIKEL</h2>
+                        <p class="text-brand-50 text-[10px] lg:text-xs mt-1 lg:mt-2 font-medium">Edukasi Publik</p>
+                    </button>
+                    
+                    <button onclick="switchPage('menu-galeri')" data-aos="zoom-in" data-aos-delay="300" class="bg-gradient-to-br from-brand-400 to-brand-300 hover:from-brand-500 hover:to-brand-400 text-brand-900 py-8 lg:py-12 px-4 rounded-3xl shadow-[0_10px_30px_-10px_rgba(39,174,210,0.6)] transition-all transform hover:-translate-y-2 text-center group border border-brand-200">
+                        <div class="w-12 h-12 lg:w-16 lg:h-16 bg-brand-900/10 rounded-full flex items-center justify-center mx-auto mb-3 lg:mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-photo-video text-2xl lg:text-3xl text-brand-900"></i>
+                        </div>
+                        <h2 class="font-extrabold text-sm lg:text-xl tracking-widest text-brand-900 drop-shadow-sm">GALERI</h2>
+                        <p class="text-brand-800 text-[10px] lg:text-xs mt-1 lg:mt-2 font-medium">Dokumentasi</p>
+                    </button>
 
-            <!-- Content Beranda (Layout: Teks Kiri, Gambar Kanan) -->
-            <div id="konten-profil-container" class="space-y-12">
-                <!-- Disi oleh JS -->
-            </div>
+                    <a href="https://abnus.siakadcloud.com/spmbfront/" target="_blank" data-aos="zoom-in" data-aos-delay="400" class="block bg-gradient-to-br from-brand-100 to-white hover:from-brand-200 hover:to-brand-100 text-brand-900 py-8 lg:py-12 px-4 rounded-3xl shadow-[0_10px_30px_-10px_rgba(39,174,210,0.4)] transition-all transform hover:-translate-y-2 text-center group border border-brand-300">
+                        <div class="w-12 h-12 lg:w-16 lg:h-16 bg-brand-900/10 rounded-full flex items-center justify-center mx-auto mb-3 lg:mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-graduation-cap text-2xl lg:text-3xl text-brand-700"></i>
+                        </div>
+                        <h2 class="font-extrabold text-sm lg:text-xl tracking-widest text-brand-900 drop-shadow-sm">PMB</h2>
+                        <p class="text-brand-800 text-[10px] lg:text-xs mt-1 lg:mt-2 font-medium">Pendaftaran</p>
+                    </a>
+                </div>
 
-            <!-- Tim / Anggota (Foto Bulat) -->
-            <div id="anggota" class="pt-16">
-                <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                    <i class="fas fa-users text-brand-600"></i> 2. Tim & Anggota Kebidanan
-                </h3>
-                <div id="konten-anggota" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div data-aos="fade-up" class="text-center max-w-3xl mx-auto mb-12 border-t border-brand-200 pt-12">
+                    <h2 class="text-3xl font-bold text-brand-900 mt-1">Sambutan & Profil Institusi</h2>
+                    <div class="w-16 h-1.5 bg-gradient-to-r from-brand-400 to-brand-600 mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <div id="konten-profil-container" class="space-y-12">
                     <!-- Disi oleh JS -->
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- SECTION B. MATERI KEBIDANAN -->
-    <section id="materi-kebidanan" class="py-16 bg-slate-100 border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center max-w-3xl mx-auto mb-10">
-                <span class="text-brand-600 font-bold text-xs uppercase tracking-widest">B. MATERI KEBIDANAN & KEHAMILAN</span>
-                <h2 class="text-3xl font-bold text-slate-900 mt-1">Modul Pembelajaran Utama</h2>
-                <p class="text-slate-600 text-sm mt-2">Pilih kategori materi untuk melihat penjelasan mendalam mengenai layanan kebidanan.</p>
-            </div>
-
-            <!-- Tab Buttons -->
-            <div id="materi-tab-buttons" class="flex flex-wrap justify-center gap-2 mb-8">
-                <!-- Tab di-generate dinamis oleh JS -->
-            </div>
-
-            <!-- Tab Content Cards -->
-            <div id="konten-materi-kebidanan">
-                <!-- Card Materi di-generate oleh JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION C. MATERI UMUM -->
-    <section id="materi-umum" class="py-16 bg-white border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center max-w-3xl mx-auto mb-10">
-                <span class="text-brand-600 font-bold text-xs uppercase tracking-widest">C. MATERI UMUM</span>
-                <h2 class="text-3xl font-bold text-slate-900 mt-1">Artikel & Edukasi Kesehatan Publik</h2>
-            </div>
-            <div id="konten-materi-umum" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Card Artikel di-generate oleh JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION D. GALERI -->
-    <section id="galeri" class="py-16 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center max-w-3xl mx-auto mb-10">
-                <span class="text-brand-600 font-bold text-xs uppercase tracking-widest">D. GALERI MEDIA</span>
-                <h2 class="text-3xl font-bold text-slate-900 mt-1">Dokumentasi Foto & Video Kegiatan</h2>
-            </div>
-            <div id="konten-galeri" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <!-- Galeri Foto & Video di-generate oleh JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- MODAL CMS ADMIN MODERN -->
-    <!-- MODAL CMS ADMIN MODERN -->
-    <div id="adminModal" class="fixed inset-0 bg-black/70 z-50 hidden flex justify-center items-center p-4 backdrop-blur-sm">
-        <div class="bg-white rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto relative flex flex-col shadow-2xl">
-            <!-- Header Modal -->
-            <div class="sticky top-0 bg-white z-10 px-6 py-4 border-b flex justify-between items-center rounded-t-2xl">
-                <h2 class="text-xl font-bold text-slate-800">Panel Admin CMS</h2>
-                <div class="flex gap-3 items-center">
-                    <button id="btnLogout" class="hidden text-sm bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1.5 rounded font-semibold transition"><i class="fas fa-sign-out-alt"></i> Logout</button>
-                    <button onclick="toggleAdminModal()" class="text-slate-400 hover:text-slate-800 text-2xl transition"><i class="fas fa-times"></i></button>
+                <div id="anggota" class="pt-20">
+                    <h3 data-aos="fade-right" class="text-xl font-bold text-brand-900 mb-6 flex items-center gap-2 border-b border-brand-200 pb-3">
+                        <i class="fas fa-users text-brand-500"></i> Tim Ahli & Pengajar
+                    </h3>
+                    <div id="konten-anggota" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                        <!-- Disi oleh JS -->
+                    </div>
                 </div>
             </div>
+        </section>
 
+        <!-- SECTION 2A: MENU PILIHAN KEBIDANAN -->
+        <section id="menu-kebidanan" class="page-section hidden py-16 min-h-screen">
+            <div class="max-w-5xl mx-auto px-4">
+                <button onclick="switchPage('dashboard')" class="mb-8 flex items-center gap-2 text-brand-700 hover:text-white font-bold bg-brand-100 hover:bg-brand-500 shadow-sm px-5 py-2.5 rounded-full text-sm transition-all w-fit">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+                </button>
+                <div data-aos="fade-down" class="text-center mb-12">
+                    <h2 class="text-3xl font-extrabold text-brand-900">Modul Pembelajaran</h2>
+                    <p class="text-brand-700 mt-2 font-medium">Pilih kategori di bawah ini untuk melihat materi spesifik.</p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+                    <button onclick="bukaMateriKebidanan('anc')" data-aos="zoom-in" data-aos-delay="100" class="bg-brand-900 border border-brand-700 p-6 lg:p-8 rounded-3xl shadow-lg shadow-brand-200 hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col items-center group relative overflow-hidden">
+                        <div class="w-16 h-16 lg:w-20 lg:h-20 bg-brand-800 text-brand-200 rounded-2xl flex items-center justify-center text-2xl lg:text-3xl mb-3 lg:mb-5 group-hover:bg-brand-500 group-hover:text-white transition-colors rotate-3 group-hover:rotate-0 shadow-inner z-10"><i class="fas fa-stethoscope"></i></div>
+                        <h3 class="font-extrabold text-lg lg:text-xl text-white z-10">Kehamilan / ANC</h3>
+                        <p class="text-brand-300 text-[10px] lg:text-xs mt-1 font-semibold z-10">Antenatal Care</p>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </button>
+                    
+                    <button onclick="bukaMateriKebidanan('inc')" data-aos="zoom-in" data-aos-delay="200" class="bg-brand-900 border border-brand-700 p-6 lg:p-8 rounded-3xl shadow-lg shadow-brand-200 hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col items-center group relative overflow-hidden">
+                        <div class="w-16 h-16 lg:w-20 lg:h-20 bg-brand-800 text-brand-200 rounded-2xl flex items-center justify-center text-2xl lg:text-3xl mb-3 lg:mb-5 group-hover:bg-brand-500 group-hover:text-white transition-colors rotate-3 group-hover:rotate-0 shadow-inner z-10"><i class="fas fa-procedures"></i></div>
+                        <h3 class="font-extrabold text-lg lg:text-xl text-white z-10">Persalinan / INC</h3>
+                        <p class="text-brand-300 text-[10px] lg:text-xs mt-1 font-semibold z-10">Intranatal Care</p>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </button>
+                    
+                    <button onclick="bukaMateriKebidanan('pnc')" data-aos="zoom-in" data-aos-delay="300" class="bg-brand-900 border border-brand-700 p-6 lg:p-8 rounded-3xl shadow-lg shadow-brand-200 hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col items-center group relative overflow-hidden">
+                        <div class="w-16 h-16 lg:w-20 lg:h-20 bg-brand-800 text-brand-200 rounded-2xl flex items-center justify-center text-2xl lg:text-3xl mb-3 lg:mb-5 group-hover:bg-brand-500 group-hover:text-white transition-colors rotate-3 group-hover:rotate-0 shadow-inner z-10"><i class="fas fa-baby"></i></div>
+                        <h3 class="font-extrabold text-lg lg:text-xl text-white z-10">Nifas / PNC</h3>
+                        <p class="text-brand-300 text-[10px] lg:text-xs mt-1 font-semibold z-10">Postnatal Care</p>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </button>
+                    
+                    <button onclick="bukaMateriKebidanan('kehamilan_sehat')" data-aos="zoom-in" data-aos-delay="400" class="bg-brand-900 border border-brand-700 p-6 lg:p-8 rounded-3xl shadow-lg shadow-brand-200 hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col items-center group relative overflow-hidden">
+                        <div class="w-16 h-16 lg:w-20 lg:h-20 bg-brand-800 text-brand-200 rounded-2xl flex items-center justify-center text-2xl lg:text-3xl mb-3 lg:mb-5 group-hover:bg-brand-500 group-hover:text-white transition-colors rotate-3 group-hover:rotate-0 shadow-inner z-10"><i class="fas fa-heartbeat"></i></div>
+                        <h3 class="font-extrabold text-lg lg:text-xl text-white z-10 text-center">Edukasi</h3>
+                        <p class="text-brand-300 text-[10px] lg:text-xs mt-1 font-semibold z-10 text-center leading-tight">Kehamilan Sehat</p>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2B: ISI KONTEN KEBIDANAN -->
+        <section id="materi-kebidanan" class="page-section hidden py-12 min-h-screen">
+            <div class="max-w-7xl mx-auto px-4">
+                <button onclick="switchPage('menu-kebidanan')" class="mb-8 flex items-center gap-2 text-brand-700 hover:text-white font-bold bg-brand-100 hover:bg-brand-500 shadow-sm px-5 py-2.5 rounded-full text-sm transition-all w-fit">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Menu Modul
+                </button>
+                <div class="border-b border-brand-200 pb-4 mb-8" data-aos="fade-right">
+                    <span class="text-brand-500 font-bold text-xs uppercase tracking-widest">KATEGORI MODUL</span>
+                    <h2 id="judul-kategori-kebidanan" class="text-3xl font-extrabold text-brand-900 mt-1">Materi</h2>
+                </div>
+                <div id="konten-materi-kebidanan"></div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: MATERI UMUM -->
+        <section id="materi-umum" class="page-section hidden py-16 min-h-screen">
+            <div class="max-w-7xl mx-auto px-4">
+                <button onclick="switchPage('dashboard')" class="mb-8 flex items-center gap-2 text-brand-700 hover:text-white font-bold bg-brand-100 hover:bg-brand-500 shadow-sm px-5 py-2.5 rounded-full text-sm transition-all w-fit">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+                </button>
+                <div data-aos="fade-down" class="text-center max-w-3xl mx-auto mb-10">
+                    <span class="text-brand-500 font-bold text-xs uppercase tracking-widest">ARTIKEL & EDUKASI</span>
+                    <h2 class="text-3xl font-extrabold text-brand-900 mt-1">Edukasi Kesehatan Publik</h2>
+                </div>
+                <div id="konten-materi-umum" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+            </div>
+        </section>
+
+        <!-- SECTION 4A: MENU PILIHAN GALERI -->
+        <section id="menu-galeri" class="page-section hidden py-16 min-h-screen">
+            <div class="max-w-5xl mx-auto px-4">
+                <button onclick="switchPage('dashboard')" class="mb-8 flex items-center gap-2 text-brand-700 hover:text-white font-bold bg-brand-100 hover:bg-brand-500 shadow-sm px-5 py-2.5 rounded-full text-sm transition-all w-fit">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+                </button>
+                <div data-aos="fade-down" class="text-center mb-10">
+                    <h2 class="text-3xl font-extrabold text-brand-900">Galeri Media</h2>
+                    <p class="text-brand-700 mt-2 font-medium">Pilih kategori media yang ingin Anda lihat.</p>
+                </div>
+                
+                <div class="grid grid-cols-2 sm:grid-cols-2 gap-4 lg:gap-8 max-w-3xl mx-auto">
+                    <button onclick="bukaGaleri('foto')" data-aos="flip-left" class="bg-brand-900 border border-brand-700 p-6 lg:p-10 rounded-3xl lg:rounded-[2rem] shadow-lg shadow-brand-200 hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col items-center group relative overflow-hidden">
+                        <div class="w-16 h-16 lg:w-24 lg:h-24 bg-brand-800 text-brand-200 rounded-2xl lg:rounded-3xl flex items-center justify-center text-3xl lg:text-4xl mb-4 lg:mb-6 group-hover:bg-brand-500 group-hover:text-white transition-colors rotate-3 group-hover:rotate-0 shadow-inner z-10"><i class="fas fa-images"></i></div>
+                        <h3 class="font-extrabold text-lg lg:text-2xl text-white z-10">Album Foto</h3>
+                        <p class="text-brand-300 text-[10px] lg:text-sm mt-2 font-medium z-10 hidden sm:block">Kumpulan foto dokumentasi kegiatan</p>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </button>
+                    <button onclick="bukaGaleri('video')" data-aos="flip-right" class="bg-brand-900 border border-brand-700 p-6 lg:p-10 rounded-3xl lg:rounded-[2rem] shadow-lg shadow-brand-200 hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col items-center group relative overflow-hidden">
+                        <div class="w-16 h-16 lg:w-24 lg:h-24 bg-brand-800 text-brand-200 rounded-2xl lg:rounded-3xl flex items-center justify-center text-3xl lg:text-4xl mb-4 lg:mb-6 group-hover:bg-brand-500 group-hover:text-white transition-colors rotate-3 group-hover:rotate-0 shadow-inner z-10"><i class="fas fa-video"></i></div>
+                        <h3 class="font-extrabold text-lg lg:text-2xl text-white z-10">Galeri Video</h3>
+                        <p class="text-brand-300 text-[10px] lg:text-sm mt-2 font-medium z-10 hidden sm:block">Kumpulan video edukasi dan liputan</p>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4B: ISI KONTEN GALERI -->
+        <section id="galeri-detail" class="page-section hidden py-12 min-h-screen">
+            <div class="max-w-7xl mx-auto px-4">
+                <button onclick="switchPage('menu-galeri')" class="mb-8 flex items-center gap-2 text-brand-700 hover:text-white font-bold bg-brand-100 hover:bg-brand-500 shadow-sm px-5 py-2.5 rounded-full text-sm transition-all w-fit">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Menu Galeri
+                </button>
+                <div class="border-b border-brand-200 pb-4 mb-8" data-aos="fade-right">
+                    <span class="text-brand-500 font-bold text-xs uppercase tracking-widest">KATEGORI MEDIA</span>
+                    <h2 id="judul-kategori-galeri" class="text-3xl font-extrabold text-brand-900 mt-1">Galeri</h2>
+                </div>
+                <div id="konten-galeri-detail" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6"></div>
+            </div>
+        </section>
+
+    </main>
+
+   <!-- MODAL CMS ADMIN -->
+    <div id="adminModal" class="fixed inset-0 bg-brand-900/80 z-50 hidden flex justify-center items-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl w-full max-w-5xl max-h-[90vh] overflow-y-auto relative flex flex-col shadow-2xl border border-brand-200">
+            <div class="sticky top-0 bg-white z-10 px-6 py-4 border-b flex justify-between items-center rounded-t-3xl">
+                <h2 class="text-xl font-bold text-brand-900">Panel Admin CMS</h2>
+                <div class="flex gap-3 items-center">
+                    <button id="btnLogout" class="hidden text-sm bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1.5 rounded font-semibold transition"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                    <button onclick="toggleAdminModal()" class="text-brand-400 hover:text-brand-800 text-2xl transition"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            
             <div class="p-6">
-                <!-- FORM LOGIN (Ditampilkan jika belum login) -->
-                <div id="loginSection" class="max-w-sm mx-auto bg-slate-50 p-6 rounded-xl border border-slate-200 text-center">
-                    <div class="w-12 h-12 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center text-xl mx-auto mb-4"><i class="fas fa-lock"></i></div>
-                    <h3 class="font-bold text-slate-800 text-lg mb-4">Login Administrator</h3>
+                <!-- FORM LOGIN -->
+                <div id="loginSection" class="max-w-sm mx-auto bg-brand-50 p-8 rounded-3xl border border-brand-100 text-center shadow-lg shadow-brand-100">
+                    <div class="w-16 h-16 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-4"><i class="fas fa-lock"></i></div>
+                    <h3 class="font-bold text-brand-900 text-xl mb-6">Login Administrator</h3>
                     <form id="loginForm" class="space-y-4">
-                        <input type="email" id="adminEmail" placeholder="Email" class="w-full p-2 border rounded text-sm focus:ring-2 focus:ring-brand-500 outline-none" required>
-                        <input type="password" id="adminPassword" placeholder="Password" class="w-full p-2 border rounded text-sm focus:ring-2 focus:ring-brand-500 outline-none" required>
-                        <button type="submit" class="w-full bg-slate-800 hover:bg-slate-900 text-white py-2 rounded text-sm font-bold transition">Masuk Panel</button>
+                        <input type="email" id="adminEmail" placeholder="Email" class="w-full p-3 border border-brand-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 outline-none" required>
+                        <input type="password" id="adminPassword" placeholder="Password" class="w-full p-3 border border-brand-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 outline-none" required>
+                        <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white py-3 rounded-xl text-sm font-bold transition shadow-md">Masuk Panel</button>
                     </form>
                     <p id="loginMessage" class="text-red-500 text-xs mt-3 hidden"></p>
                 </div>
 
-                <!-- DASHBOARD CRUD (Ditampilkan jika sudah login) -->
+                <!-- DASHBOARD CRUD -->
                 <div id="dashboardSection" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    
-                    <!-- Form Beranda / Profil -->
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <h3 class="font-bold text-slate-800 mb-4 border-b pb-2"><i class="fas fa-home text-brand-600"></i> A. Beranda & Profil</h3>
+                    <div class="bg-brand-50 p-6 rounded-2xl border border-brand-100 shadow-sm">
+                        <h3 class="font-bold text-brand-900 mb-4 border-b border-brand-200 pb-2"><i class="fas fa-home text-brand-500"></i> A. Beranda & Profil</h3>
                         <form id="formBeranda" class="space-y-3">
-                            <input type="text" id="judulBeranda" placeholder="Judul Profil" class="w-full p-2 border rounded text-sm" required>
-                            <div id="editorBeranda" class="bg-white h-32 border rounded"></div>
-                            <input type="text" id="captionBeranda" placeholder="Caption Gambar (Opsional)" class="w-full p-2 border rounded text-sm">
-                            <input type="file" id="gambarBeranda" accept="image/*" class="w-full p-1.5 border rounded text-sm bg-white">
-                            <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white py-2 rounded text-sm font-bold transition">Simpan Profil</button>
+                            <input type="text" id="judulBeranda" placeholder="Judul Profil" class="w-full p-2 border border-brand-200 rounded-lg text-sm" required>
+                            <div id="editorBeranda" class="bg-white h-32 border border-brand-200 rounded-lg"></div>
+                            <input type="text" id="captionBeranda" placeholder="Caption Gambar (Opsional)" class="w-full p-2 border border-brand-200 rounded-lg text-sm">
+                            <input type="file" id="gambarBeranda" accept="image/*" class="w-full p-1.5 border border-brand-200 rounded-lg text-sm bg-white">
+                            <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-white py-2.5 rounded-lg text-sm font-bold transition">Simpan Profil</button>
                         </form>
                     </div>
-
-                    <!-- Form Tim / Anggota -->
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <h3 class="font-bold text-slate-800 mb-4 border-b pb-2"><i class="fas fa-users text-brand-600"></i> B. Tambah Anggota</h3>
+                    <div class="bg-brand-50 p-6 rounded-2xl border border-brand-100 shadow-sm">
+                        <h3 class="font-bold text-brand-900 mb-4 border-b border-brand-200 pb-2"><i class="fas fa-users text-brand-500"></i> B. Tambah Anggota</h3>
                         <form id="formAnggota" class="space-y-3">
-                            <input type="text" id="namaAnggota" placeholder="Nama Lengkap & Gelar" class="w-full p-2 border rounded text-sm" required>
-                            <input type="text" id="keahlianAnggota" placeholder="Keahlian / Spesialisasi" class="w-full p-2 border rounded text-sm" required>
-                            <input type="file" id="fotoAnggota" accept="image/*" class="w-full p-1.5 border rounded text-sm bg-white">
-                            <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white py-2 rounded text-sm font-bold transition">Simpan Anggota</button>
+                            <input type="text" id="namaAnggota" placeholder="Nama Lengkap & Gelar" class="w-full p-2 border border-brand-200 rounded-lg text-sm" required>
+                            <input type="text" id="keahlianAnggota" placeholder="Keahlian / Spesialisasi" class="w-full p-2 border border-brand-200 rounded-lg text-sm" required>
+                            <input type="file" id="fotoAnggota" accept="image/*" class="w-full p-1.5 border border-brand-200 rounded-lg text-sm bg-white">
+                            <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-white py-2.5 rounded-lg text-sm font-bold transition">Simpan Anggota</button>
                         </form>
                     </div>
-
-                    <!-- Form Galeri -->
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <h3 class="font-bold text-slate-800 mb-4 border-b pb-2"><i class="fas fa-images text-brand-600"></i> D. Tambah Galeri</h3>
+                    <div class="bg-brand-50 p-6 rounded-2xl border border-brand-100 shadow-sm">
+                        <h3 class="font-bold text-brand-900 mb-4 border-b border-brand-200 pb-2"><i class="fas fa-images text-brand-500"></i> D. Tambah Galeri</h3>
                         <form id="formGaleri" class="space-y-3">
-                            <select id="tipeGaleri" class="w-full p-2 border rounded text-sm" required>
+                            <select id="tipeGaleri" class="w-full p-2 border border-brand-200 rounded-lg text-sm" required>
                                 <option value="foto">Foto</option>
                                 <option value="video">Video</option>
                             </select>
-                            <input type="text" id="judulGaleri" placeholder="Judul / Keterangan File" class="w-full p-2 border rounded text-sm" required>
-                            <input type="file" id="mediaGaleri" accept="image/*,video/*" class="w-full p-1.5 border rounded text-sm bg-white" required>
-                            <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white py-2 rounded text-sm font-bold transition">Upload Galeri</button>
+                            <input type="text" id="judulGaleri" placeholder="Judul / Keterangan File" class="w-full p-2 border border-brand-200 rounded-lg text-sm" required>
+                            <input type="file" id="mediaGaleri" accept="image/*,video/*" class="w-full p-1.5 border border-brand-200 rounded-lg text-sm bg-white" required>
+                            <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-white py-2.5 rounded-lg text-sm font-bold transition">Upload Galeri</button>
                         </form>
                     </div>
-
-                    <!-- Form Materi -->
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm md:col-span-2 lg:col-span-3">
-                        <h3 class="font-bold text-slate-800 mb-4 border-b pb-2"><i class="fas fa-book-medical text-brand-600"></i> B & C. Tambah Materi & Artikel</h3>
-                        
+                    <div class="bg-brand-50 p-6 rounded-2xl border border-brand-100 shadow-sm md:col-span-2 lg:col-span-3">
+                        <h3 class="font-bold text-brand-900 mb-4 border-b border-brand-200 pb-2"><i class="fas fa-book-medical text-brand-500"></i> B & C. Tambah Materi & Artikel</h3>
                         <form id="formMateri" class="space-y-4">
-                            <!-- Dropdown Utama Pemisah B & C -->
-                            <div class="bg-brand-50 p-3 rounded-lg border border-brand-200">
-                                <label class="text-xs font-bold text-brand-800 mb-1 block">Pilih Jenis Konten yang ingin dibuat:</label>
-                                <select id="kategoriUtama" onchange="toggleFormMateri()" class="w-full p-2 border rounded text-sm font-semibold" required>
+                            <div class="bg-brand-100/50 p-4 rounded-xl border border-brand-200">
+                                <label class="text-xs font-bold text-brand-800 mb-2 block">Pilih Jenis Konten yang ingin dibuat:</label>
+                                <select id="kategoriUtama" onchange="toggleFormMateri()" class="w-full p-2.5 border border-brand-300 rounded-lg text-sm font-bold text-brand-900" required>
                                     <option value="kebidanan">B. Materi Kebidanan (Modul Info)</option>
                                     <option value="umum">C. Materi Umum (Artikel Berita/Edukasi)</option>
                                 </select>
                             </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <!-- Field Dasar (Selalu Muncul) -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="space-y-3">
-                                    <div>
-                                        <label class="text-xs font-bold text-slate-500 mb-1 block">Sub Kategori</label>
-                                        <select id="subKategori" class="w-full p-2 border rounded text-sm" required>
-                                            <!-- Diisi otomatis oleh JS -->
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="text-xs font-bold text-slate-500 mb-1 block">Judul</label>
-                                        <input type="text" id="judulMateri" placeholder="Judul Materi / Artikel" class="w-full p-2 border rounded text-sm" required>
-                                    </div>
-                                    <div>
-                                        <label class="text-xs font-bold text-slate-500 mb-1 block">Badge Label (Opsional)</label>
-                                        <input type="text" id="badgeLabel" placeholder="Misal: Antenatal Care / Berita Sehat" class="w-full p-2 border rounded text-sm">
-                                    </div>
-                                    <div>
-                                        <label class="text-xs font-bold text-slate-500 mb-1 block">Upload Gambar Thumbnail</label>
-                                        <input type="file" id="gambarMateri" accept="image/*" class="w-full p-1.5 border rounded text-sm bg-white">
-                                    </div>
-                                    <div>
-                                        <label class="text-xs font-bold text-slate-500 mb-1 block">Deskripsi Singkat (Untuk Tampilan Card)</label>
-                                        <textarea id="deskripsiMateri" placeholder="Tuliskan rangkuman singkat (maks 3 baris)..." class="w-full p-2 border rounded text-sm h-16"></textarea>
-                                    </div>
+                                    <div><select id="subKategori" class="w-full p-2 border border-brand-200 rounded-lg text-sm" required></select></div>
+                                    <div><input type="text" id="judulMateri" placeholder="Judul Materi / Artikel" class="w-full p-2 border border-brand-200 rounded-lg text-sm" required></div>
+                                    <div><input type="text" id="badgeLabel" placeholder="Badge Kategori" class="w-full p-2 border border-brand-200 rounded-lg text-sm"></div>
+                                    <div><input type="file" id="gambarMateri" accept="image/*" class="w-full p-1.5 border border-brand-200 rounded-lg text-sm bg-white"></div>
+                                    <div><textarea id="deskripsiMateri" placeholder="Deskripsi Singkat" class="w-full p-2 border border-brand-200 rounded-lg text-sm h-16"></textarea></div>
                                 </div>
-
-                                <!-- Field Khusus (Berubah Tergantung Pilihan) -->
                                 <div>
-                                    <!-- KHUSUS B: KEBIDANAN -->
-                                    <div id="fieldsKebidanan" class="block space-y-2 bg-blue-50 p-4 rounded-lg border border-blue-100 h-full">
-                                        <label class="text-xs font-bold text-blue-800 block"><i class="fas fa-list-ul"></i> Khusus Materi Kebidanan</label>
-                                        <p class="text-[10px] text-blue-600 mb-2">Masukkan poin-poin materi. (Tekan ENTER untuk memisahkan setiap poin)</p>
-                                        <textarea id="listPoinMateri" placeholder="1. Pemantauan janin...&#10;2. Deteksi dini...&#10;3. Konseling ibu hamil..." class="w-full p-2 border rounded text-sm h-48"></textarea>
+                                    <div id="fieldsKebidanan" class="block space-y-2 bg-white p-5 rounded-xl border border-brand-200 shadow-sm h-full">
+                                        <textarea id="listPoinMateri" placeholder="List Poin (Pisahkan dengan Enter)" class="w-full p-2 border border-brand-200 rounded-lg text-sm h-48 outline-none"></textarea>
                                     </div>
-
-                                    <!-- KHUSUS C: UMUM (ARTIKEL) -->
-                                    <div id="fieldsUmum" class="hidden space-y-2 bg-emerald-50 p-4 rounded-lg border border-emerald-100 h-full">
-                                        <label class="text-xs font-bold text-emerald-800 block"><i class="fas fa-newspaper"></i> Khusus Materi Umum</label>
-                                        <p class="text-[10px] text-emerald-600 mb-2">Tuliskan isi artikel lengkap di editor bawah ini.</p>
-                                        <div id="editorArtikel" class="bg-white h-48 border rounded"></div>
+                                    <div id="fieldsUmum" class="hidden space-y-2 bg-white p-5 rounded-xl border border-brand-200 shadow-sm h-full">
+                                        <div id="editorArtikel" class="bg-white h-48 border border-brand-200 rounded-lg"></div>
                                     </div>
                                 </div>
                             </div>
-                            
-                            <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white py-2.5 rounded text-sm font-bold transition mt-4 shadow-md">Simpan Data</button>
+                            <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white py-3 rounded-xl text-sm font-bold transition mt-4 shadow-md">Simpan Database</button>
                         </form>
                     </div>
                 </div>
@@ -307,25 +409,30 @@
         </div>
     </div>
 
-    <!-- MODAL BACA ARTIKEL FULL PAGE (Sudah dinaikkan z-index ke 100) -->
+    <!-- MODAL FULL ARTIKEL -->
     <div id="articleModal" class="fixed inset-0 bg-white z-[100] hidden overflow-y-auto">
         <div class="max-w-3xl mx-auto px-6 py-8">
-            <!-- Tombol Kembali -->
-            <button onclick="tutupArtikel()" class="mb-6 flex items-center gap-2 text-slate-500 hover:text-brand-600 font-bold bg-slate-100 hover:bg-brand-50 px-4 py-2 rounded-full transition-all text-sm w-fit">
+            <button onclick="tutupArtikel()" class="mb-6 flex items-center gap-2 text-brand-600 hover:text-white font-bold bg-brand-50 hover:bg-brand-500 shadow-sm px-5 py-2.5 rounded-full transition-all text-sm w-fit border border-brand-200">
                 <i class="fas fa-arrow-left"></i> Kembali
             </button>
-            
-            <!-- Konten Artikel yang akan disuntik dari JS -->
-            <div id="articleContent" class="pb-20">
-                <!-- Teks Artikel Dimuat Di Sini -->
-            </div>
+            <div id="articleContent" class="pb-20"></div>
         </div>
     </div>
 
-    <!-- SCRIPTS -->
+    <!-- SCRIPT LIBRARY AOS DAN QUILL -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script type="module" src="js/main.js"></script>
+    
     <script>
+        // INISIALISASI AOS ANIMATION (Perbaikan once: false)
+        AOS.init({
+            once: false, // Animasi bisa berjalan berkali-kali saat kembali
+            duration: 800,
+            offset: 50 
+        });
+
+        // FUNGSI SIDEBAR MENU
         function openSidebar() {
             document.getElementById('mobile-sidebar').classList.remove('sidebar-closed');
             document.getElementById('mobile-sidebar').classList.add('sidebar-open');
@@ -338,6 +445,14 @@
         }
         function toggleAdminModal() {
             document.getElementById('adminModal').classList.toggle('hidden');
+        }
+        function toggleMobileMenu(id) {
+            const menu = document.getElementById(id);
+            if(menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+            }
         }
     </script>
 </body>

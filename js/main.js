@@ -48,45 +48,55 @@ btnLogout.addEventListener('click', async () => {
 });
 
 // ==========================================
+// HELPER: REFRESH AOS UNTUK DATA DINAMIS
+// ==========================================
+window.refreshAOS = function() {
+    setTimeout(() => {
+        if(typeof AOS !== 'undefined') {
+            AOS.refreshHard(); // Minta AOS menghitung ulang elemen baru
+            window.dispatchEvent(new Event('scroll')); // Pancing scroll agar animasi langsung jalan
+        }
+    }, 100);
+}
+
+// ==========================================
 // 2. RENDER UI KE HALAMAN PENGUNJUNG
 // ==========================================
 
-// A. BERANDA (UI: Teks & Gambar responsif, Line-clamp)
+// A. BERANDA
 async function fetchBeranda() {
     const container = document.getElementById('konten-profil-container');
     const { data } = await supabase.from('konten_beranda').select('*').order('created_at', { ascending: true });
-
     if (!data || data.length === 0) return;
 
     container.innerHTML = data.map(item => `
-        <div class="flex flex-col lg:flex-row items-center gap-8">
-            <!-- Teks: Urutan 2 di mobile (bawah gambar), 1 di desktop (kiri) -->
+        <div class="flex flex-col lg:flex-row items-center gap-10" data-aos="fade-up">
             <div class="w-full lg:w-1/2 order-2 lg:order-1">
-                <h3 class="text-2xl font-bold text-slate-800 mb-4">${item.judul}</h3>
-                <div id="text-beranda-${item.id}" class="text-slate-600 leading-relaxed text-sm line-clamp-3 transition-all duration-300">
+                <h3 class="text-3xl font-extrabold text-brand-900 mb-4">${item.judul}</h3>
+                <div id="text-beranda-${item.id}" class="text-brand-800 leading-relaxed text-sm line-clamp-3 transition-all duration-300">
                     ${item.deskripsi}
                 </div>
-                <button onclick="toggleText('text-beranda-${item.id}', this)" class="mt-2 text-brand-600 font-bold text-xs hover:underline flex items-center gap-1">
+                <button onclick="toggleText('text-beranda-${item.id}', this)" class="mt-3 text-brand-500 font-bold text-sm hover:text-brand-600 flex items-center gap-2 bg-brand-100 hover:bg-brand-200 px-4 py-1.5 rounded-full w-fit transition">
                     Lihat Selengkapnya <i class="fas fa-chevron-down"></i>
                 </button>
             </div>
             
-            <!-- Gambar: Urutan 1 di mobile (atas teks), 2 di desktop (kanan) -->
             ${item.gambar_url ? `
             <div class="w-full lg:w-1/2 order-1 lg:order-2">
-                <div class="relative rounded-2xl overflow-hidden shadow-xl border border-slate-100">
-                    <img src="${item.gambar_url}" alt="${item.judul}" class="w-full h-64 lg:h-80 object-cover">
+                <div class="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-brand-200/50 border-4 border-white">
+                    <img src="${item.gambar_url}" alt="${item.judul}" class="w-full h-64 lg:h-[350px] object-cover">
                     ${item.caption_gambar ? `
-                    <div class="absolute bottom-0 w-full bg-gradient-to-t from-black/80 p-4">
-                        <p class="text-white text-sm font-medium">${item.caption_gambar}</p>
+                    <div class="absolute bottom-0 w-full bg-gradient-to-t from-brand-900/90 to-transparent p-6 pt-12">
+                        <p class="text-white text-sm font-medium drop-shadow-md">${item.caption_gambar}</p>
                     </div>` : ''}
                 </div>
             </div>` : ''}
         </div>
     `).join('');
+    
+    window.refreshAOS();
 }
 
-// Global function untuk Line-clamp
 window.toggleText = function(id, btn) {
     const el = document.getElementById(id);
     if (el.classList.contains('line-clamp-3')) {
@@ -98,128 +108,206 @@ window.toggleText = function(id, btn) {
     }
 }
 
-// B. TIM & ANGGOTA (UI: Grid, Foto Bulat, Default Avatar)
+// B. TIM & ANGGOTA 
 async function fetchAnggota() {
     const container = document.getElementById('konten-anggota');
     const { data } = await supabase.from('konten_anggota').select('*').order('created_at', { ascending: true });
-
     if (!data || data.length === 0) return;
 
-    container.innerHTML = data.map(item => {
-        // Logika Default Avatar UI-Avatars
-        const avatarUrl = item.foto_url ? item.foto_url : `https://ui-avatars.com/api/?background=22c55e&color=fff&size=150&name=${encodeURIComponent(item.nama)}`;
+    container.innerHTML = data.map((item, index) => {
+        const delay = (index % 4) * 100;
+        const avatarUrl = item.foto_url ? item.foto_url : `https://ui-avatars.com/api/?background=27AED2&color=fff&size=150&name=${encodeURIComponent(item.nama)}`;
         return `
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition">
-            <img src="${avatarUrl}" alt="${item.nama}" class="w-28 h-28 rounded-full mx-auto object-cover border-4 border-brand-100 shadow-sm mb-4">
-            <h4 class="font-bold text-slate-800 text-lg">${item.nama}</h4>
-            <p class="text-sm text-brand-600 font-medium">${item.keahlian}</p>
+        <div data-aos="zoom-in" data-aos-delay="${delay}" class="bg-gradient-to-b from-white to-brand-50 border border-brand-200 rounded-3xl p-4 lg:p-6 text-center shadow-lg shadow-brand-100 hover:shadow-xl hover:-translate-y-1 transition-all">
+            <div class="w-24 h-24 lg:w-32 lg:h-32 mx-auto rounded-full p-1 lg:p-1.5 bg-gradient-to-tr from-brand-400 to-brand-600 mb-3 lg:mb-5 shadow-md">
+                <img src="${avatarUrl}" alt="${item.nama}" class="w-full h-full rounded-full object-cover border-[3px] border-white">
+            </div>
+            <h4 class="font-extrabold text-brand-900 text-sm lg:text-lg leading-tight">${item.nama}</h4>
+            <p class="text-[10px] lg:text-sm text-brand-600 font-semibold mt-1">${item.keahlian}</p>
         </div>`
     }).join('');
+    
+    window.refreshAOS();
 }
 
-// C. MATERI KEBIDANAN & UMUM (UI: Tab & Cards)
+
+// C. DATA MATERI & ARTIKEL UMUM
 let allMateri = [];
 async function fetchMateri() {
     const { data } = await supabase.from('konten_materi').select('*').order('created_at', { ascending: false });
     allMateri = data || [];
-    renderMateriKebidanan('anc'); // Render default tab
-    renderMateriUmum();
+    renderMateriUmum(); 
 }
-
-function renderMateriKebidanan(activeSub) {
-    const tabContainer = document.getElementById('materi-tab-buttons');
-    const contentContainer = document.getElementById('konten-materi-kebidanan');
-
-    const tabs = [
-        { key: 'anc', label: '1.a ANC' }, { key: 'inc', label: '1.b INC' },
-        { key: 'pnc', label: '1.c PNC' }, { key: 'kehamilan_sehat', label: '2. Kehamilan Sehat' }
-    ];
-
-    tabContainer.innerHTML = tabs.map(t => `
-        <button onclick="switchMateriTab('${t.key}')" 
-            class="px-6 py-2 rounded-full font-bold text-sm transition-all shadow-sm ${activeSub === t.key ? 'bg-brand-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-200 border border-slate-200'}">
-            ${t.label}
-        </button>
-    `).join('');
-
-    const filtered = allMateri.filter(item => item.kategori_utama === 'kebidanan' && item.sub_kategori === activeSub);
-    
-    if (filtered.length === 0) {
-        contentContainer.innerHTML = `<p class="text-center text-slate-500 py-8">Materi belum tersedia di kategori ini.</p>`;
-        return;
-    }
-
-    contentContainer.innerHTML = filtered.map(item => {
-        const poinList = item.list_poin ? item.list_poin.split('\n') : [];
-        return `
-        <div class="bg-white rounded-2xl p-6 lg:p-8 shadow border border-slate-200 mb-6 flex flex-col md:flex-row gap-6 items-center">
-            <div class="${item.gambar_url ? 'md:w-1/2' : 'w-full'}">
-                ${item.badge_label ? `<span class="px-3 py-1 bg-brand-100 text-brand-700 text-xs font-bold rounded-full">${item.badge_label}</span>` : ''}
-                <h3 class="text-2xl font-bold text-slate-900 mt-3 mb-3">${item.judul}</h3>
-                <p class="text-slate-600 text-sm mb-4">${item.deskripsi || ''}</p>
-                ${poinList.length > 0 ? `
-                <ul class="space-y-2 text-sm text-slate-700">
-                    ${poinList.map(poin => `<li class="flex gap-2 items-start"><i class="fas fa-check-circle text-brand-500 mt-1"></i> <span>${poin}</span></li>`).join('')}
-                </ul>` : ''}
-            </div>
-            ${item.gambar_url ? `
-            <div class="w-full md:w-1/2">
-                <img src="${item.gambar_url}" alt="${item.judul}" class="rounded-xl shadow w-full h-64 object-cover border border-slate-100">
-            </div>` : ''}
-        </div>`
-    }).join('');
-}
-
-window.switchMateriTab = function(key) { renderMateriKebidanan(key); }
 
 function renderMateriUmum() {
     const container = document.getElementById('konten-materi-umum');
+    if(!container) return;
+
     const filtered = allMateri.filter(item => item.kategori_utama === 'umum');
-    
     if (filtered.length === 0) return;
 
-    container.innerHTML = filtered.map(item => `
-        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition group flex flex-col h-full">
-            ${item.gambar_url ? `<img src="${item.gambar_url}" class="w-full h-48 object-cover">` : ''}
-            <div class="p-5 flex flex-col flex-grow">
-                ${item.badge_label ? `<span class="text-[10px] bg-brand-100 text-brand-800 font-bold px-2 py-1 rounded w-max uppercase">${item.badge_label}</span>` : ''}
-                <h3 class="font-bold text-slate-800 text-lg mt-3">${item.judul}</h3>
-                <p class="text-slate-600 text-sm mt-2 line-clamp-3 mb-4">${item.deskripsi || ''}</p>
+    container.innerHTML = filtered.map((item, index) => {
+        const delay = (index % 3) * 150;
+        return `
+        <div data-aos="fade-up" data-aos-delay="${delay}" class="bg-gradient-to-b from-white to-brand-50 border border-brand-200 rounded-[2rem] overflow-hidden shadow-lg shadow-brand-100/50 hover:shadow-2xl transition-all duration-300 group flex flex-col h-full hover:-translate-y-1">
+            ${item.gambar_url ? `<img src="${item.gambar_url}" class="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-500">` : ''}
+            <div class="p-6 flex flex-col flex-grow relative bg-white/50 backdrop-blur-sm z-10">
+                ${item.badge_label ? `<span class="text-[10px] bg-brand-500 text-white shadow-sm font-extrabold px-3 py-1.5 rounded-full w-max uppercase absolute -top-4 left-6">${item.badge_label}</span>` : ''}
+                <h3 class="font-extrabold text-brand-900 text-xl mt-3 leading-snug">${item.judul}</h3>
+                <p class="text-brand-700 text-sm mt-3 line-clamp-3 mb-6 font-medium leading-relaxed">${item.deskripsi || ''}</p>
                 
-                <div class="mt-auto pt-4 border-t border-slate-100">
-                    <!-- Tombol ini memicu fungsi bacaArtikelLengkap() -->
+                <div class="mt-auto pt-4 border-t border-brand-200/50">
                     ${item.isi_artikel ? `
-                    <button onclick="bacaArtikelLengkap('${item.id}')" class="text-brand-600 font-bold text-sm hover:text-brand-800 flex items-center gap-1">
-                        Baca Artikel Lengkap <i class="fas fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
+                    <button onclick="bacaArtikelLengkap('${item.id}')" class="text-brand-600 font-bold text-sm hover:text-brand-800 flex items-center gap-2">
+                        Baca Artikel Lengkap <i class="fas fa-arrow-right text-xs transition-transform group-hover:translate-x-2"></i>
                     </button>` : ''}
                 </div>
             </div>
         </div>
-    `).join('');
+        `
+    }).join('');
+    
+    window.refreshAOS();
 }
 
-// D. GALERI (UI: Grid Foto/Video)
-async function fetchGaleri() {
-    const container = document.getElementById('konten-galeri');
-    const { data } = await supabase.from('konten_galeri').select('*').order('created_at', { ascending: false });
+// BUKA MATERI KEBIDANAN (Desain Ocean Breeze + Animasi AOS)
+window.bukaMateriKebidanan = function(subKategori) {
+    const contentContainer = document.getElementById('konten-materi-kebidanan');
+    const judulContainer = document.getElementById('judul-kategori-kebidanan');
+    
+    const labels = {
+        'anc': 'Modul 1.a ANC (Antenatal Care)',
+        'inc': 'Modul 1.b INC (Intranatal Care)',
+        'pnc': 'Modul 1.c PNC (Postnatal Care)',
+        'kehamilan_sehat': 'Edukasi 2. Kehamilan Sehat'
+    };
+    if(judulContainer) {
+        judulContainer.innerText = labels[subKategori] || 'Materi Kebidanan';
+    }
 
-    if (!data || data.length === 0) return;
+    const filtered = allMateri.filter(item => item.kategori_utama === 'kebidanan' && item.sub_kategori === subKategori);
+    
+    if (filtered.length === 0) {
+        contentContainer.innerHTML = `<div data-aos="fade-in" class="bg-brand-50 p-8 rounded-3xl text-center text-brand-600 border border-brand-200 font-medium shadow-inner">Belum ada data modul untuk kategori ini.</div>`;
+    } else {
+        contentContainer.innerHTML = filtered.map((item, index) => {
+            const delay = (index % 4) * 100;
+            const poinList = item.list_poin ? item.list_poin.split('\n') : [];
+            return `
+            <div data-aos="fade-up" data-aos-delay="${delay}" class="bg-gradient-to-br from-white to-brand-50 rounded-3xl p-6 lg:p-10 shadow-xl shadow-brand-100/50 border border-brand-200 mb-8 flex flex-col md:flex-row gap-8 items-center group">
+                <div class="${item.gambar_url ? 'md:w-1/2' : 'w-full'}">
+                    ${item.badge_label ? `<span class="px-4 py-1.5 bg-brand-100 text-brand-800 text-[10px] font-extrabold rounded-full tracking-wider shadow-sm">${item.badge_label}</span>` : ''}
+                    <h3 class="text-3xl font-extrabold text-brand-900 mt-4 mb-3 leading-tight">${item.judul}</h3>
+                    <p class="text-brand-700 text-sm mb-6 leading-relaxed">${item.deskripsi || ''}</p>
+                    ${poinList.length > 0 ? `
+                    <ul class="space-y-3 text-sm text-brand-800 font-medium">
+                        ${poinList.map(poin => `<li class="flex gap-3 items-start"><i class="fas fa-check-circle text-brand-500 mt-1 text-lg"></i> <span>${poin}</span></li>`).join('')}
+                    </ul>` : ''}
+                </div>
+                ${item.gambar_url ? `
+                <div class="w-full md:w-1/2">
+                    <img src="${item.gambar_url}" alt="${item.judul}" class="rounded-2xl shadow-lg w-full h-72 object-cover border-4 border-white group-hover:scale-[1.02] transition-transform duration-300">
+                </div>` : ''}
+            </div>`
+        }).join('');
+    }
 
-    container.innerHTML = data.map(item => `
-        <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition border border-slate-200 relative group">
-            ${item.tipe === 'video' 
-                ? `<video src="${item.media_url}" class="w-full h-56 object-cover" controls></video>`
-                : `<img src="${item.media_url}" class="w-full h-56 object-cover">`
-            }
-            <div class="absolute bottom-0 w-full bg-gradient-to-t from-slate-900 to-transparent p-4 opacity-0 group-hover:opacity-100 transition">
-                <p class="text-white font-bold text-sm">${item.judul}</p>
+    window.switchPage('materi-kebidanan');
+}
+
+// BUKA MODAL ARTIKEL LENGKAP
+window.bacaArtikelLengkap = function(id) {
+    const item = allMateri.find(m => String(m.id) === String(id));
+    if(!item) return; 
+
+    document.getElementById('articleContent').innerHTML = `
+        <div data-aos="zoom-in">
+            ${item.badge_label ? `<span class="px-4 py-1.5 bg-brand-100 text-brand-800 text-xs font-bold rounded-full mb-6 inline-block">${item.badge_label}</span>` : ''}
+            <h1 class="text-3xl md:text-5xl font-extrabold text-brand-900 mb-6 leading-tight">${item.judul}</h1>
+            ${item.gambar_url ? `<img src="${item.gambar_url}" class="w-full h-64 md:h-[450px] object-cover rounded-3xl mb-10 shadow-xl shadow-brand-200/50">` : ''}
+            
+            <div class="text-slate-700 leading-loose text-lg space-y-6">
+                ${item.isi_artikel}
             </div>
         </div>
-    `).join('');
+    `;
+    
+    document.getElementById('articleModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; 
+    window.refreshAOS();
+}
+
+window.tutupArtikel = function() {
+    document.getElementById('articleModal').classList.add('hidden');
+    document.body.style.overflow = 'auto';
+}
+
+
+// D. GALERI MEDIA 
+let allGaleri = []; 
+async function fetchGaleri() {
+    const { data } = await supabase.from('konten_galeri').select('*').order('created_at', { ascending: false });
+    allGaleri = data || [];
+}
+
+window.bukaGaleri = function(tipe) {
+    const container = document.getElementById('konten-galeri-detail');
+    const judul = document.getElementById('judul-kategori-galeri');
+
+    judul.innerText = tipe === 'foto' ? 'Album Foto' : 'Galeri Video';
+    const filtered = allGaleri.filter(item => item.tipe === tipe);
+
+    if (filtered.length === 0) {
+        container.innerHTML = `<div data-aos="fade-in" class="col-span-full bg-brand-50 p-8 rounded-3xl text-center text-brand-600 border border-brand-200 shadow-inner font-medium">Belum ada file media untuk kategori ini.</div>`;
+    } else {
+        container.innerHTML = filtered.map((item, index) => {
+            const delay = (index % 6) * 100;
+            return `
+            <div data-aos="zoom-in" data-aos-delay="${delay}" class="bg-white rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg shadow-brand-100/50 hover:shadow-2xl transition-all border border-brand-100 relative group aspect-square lg:aspect-auto lg:h-64">
+                ${item.tipe === 'video' 
+                    ? `<video src="${item.media_url}" class="w-full h-full object-cover bg-brand-900" controls></video>`
+                    : `<img src="${item.media_url}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">`
+                }
+                <div class="absolute bottom-0 w-full bg-gradient-to-t from-brand-900 via-brand-900/80 to-transparent p-3 pt-8 lg:p-5 lg:pt-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <p class="text-white font-bold text-xs lg:text-sm tracking-wide leading-tight">${item.judul}</p>
+                </div>
+            </div>
+            `
+        }).join('');
+    }
+    window.switchPage('galeri-detail');
 }
 
 // ==========================================
-// 3. HELPER & SUBMIT HANDLERS (CMS)
+// LOGIKA ROUTING SPA - PINDAH HALAMAN
+// ==========================================
+window.switchPage = function(targetSectionId) {
+    document.querySelectorAll('.page-section').forEach(sec => sec.classList.add('hidden'));
+    
+    const target = document.getElementById(targetSectionId);
+    if(target) {
+        target.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Copot class animasi AOS lalu pasang kembali untuk memicu efek animasi berulang kali
+        setTimeout(() => {
+            if(typeof AOS !== 'undefined') {
+                const animatedElements = target.querySelectorAll('[data-aos]');
+                animatedElements.forEach(el => el.classList.remove('aos-animate'));
+                
+                window.refreshAOS();
+                
+                setTimeout(() => {
+                    animatedElements.forEach(el => el.classList.add('aos-animate'));
+                }, 50);
+            }
+        }, 50);
+    }
+}
+
+
+// ==========================================
+// 5. HELPER & SUBMIT HANDLERS (CMS)
 // ==========================================
 async function uploadToSupabase(fileInput, folderName) {
     const file = fileInput.files[0];
@@ -236,7 +324,6 @@ async function uploadToSupabase(fileInput, folderName) {
     return data.publicUrl;
 }
 
-// Event Listeners Submit Forms
 const handleFormSubmit = async (e, table, getPayload, refreshUI) => {
     e.preventDefault();
     const btn = e.target.querySelector('button[type="submit"]');
@@ -251,7 +338,6 @@ const handleFormSubmit = async (e, table, getPayload, refreshUI) => {
         
         alert('Data berhasil disimpan!');
         e.target.reset();
-        if(table === 'konten_beranda') quillBeranda.root.innerHTML = '';
         refreshUI();
     } catch (err) {
         alert('Gagal menyimpan: ' + err.message);
@@ -266,7 +352,7 @@ document.getElementById('formBeranda').addEventListener('submit', (e) => handleF
     deskripsi: quillBeranda.root.innerHTML,
     caption_gambar: document.getElementById('captionBeranda').value,
     gambar_url: await uploadToSupabase(document.getElementById('gambarBeranda'), 'beranda')
-}), fetchBeranda));
+}), () => { quillBeranda.root.innerHTML = ''; fetchBeranda(); }));
 
 document.getElementById('formAnggota').addEventListener('submit', (e) => handleFormSubmit(e, 'konten_anggota', async () => ({
     nama: document.getElementById('namaAnggota').value,
@@ -276,24 +362,17 @@ document.getElementById('formAnggota').addEventListener('submit', (e) => handleF
 
 document.getElementById('formMateri').addEventListener('submit', (e) => handleFormSubmit(e, 'konten_materi', async () => {
     const kategori = document.getElementById('kategoriUtama').value;
-    
     return {
         kategori_utama: kategori,
         sub_kategori: document.getElementById('subKategori').value,
         badge_label: document.getElementById('badgeLabel').value,
         judul: document.getElementById('judulMateri').value,
         deskripsi: document.getElementById('deskripsiMateri').value,
-        // Jika B (Kebidanan) ambil dari textarea List Poin, isi_artikel diset null
         list_poin: kategori === 'kebidanan' ? document.getElementById('listPoinMateri').value : null,
-        // Jika C (Umum) ambil dari Editor Artikel Quill, list_poin diset null
         isi_artikel: kategori === 'umum' ? quillArtikel.root.innerHTML : null,
         gambar_url: await uploadToSupabase(document.getElementById('gambarMateri'), 'materi')
     }
-}, () => { 
-    // Reset Data Setelah Berhasil Simpan
-    quillArtikel.root.innerHTML = ''; 
-    fetchMateri(); 
-}));
+}, () => { quillArtikel.root.innerHTML = ''; fetchMateri(); }));
 
 document.getElementById('formGaleri').addEventListener('submit', (e) => handleFormSubmit(e, 'konten_galeri', async () => ({
     tipe: document.getElementById('tipeGaleri').value,
@@ -301,18 +380,6 @@ document.getElementById('formGaleri').addEventListener('submit', (e) => handleFo
     media_url: await uploadToSupabase(document.getElementById('mediaGaleri'), 'galeri')
 }), fetchGaleri));
 
-// ==========================================
-// 4. INIT LOAD
-// ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-    checkAuthSession();
-    fetchBeranda();
-    fetchAnggota();
-    fetchMateri();
-    fetchGaleri();
-});
-
-// Fungsi untuk merubah isi form secara dinamis B / C
 window.toggleFormMateri = function() {
     const kat = document.getElementById('kategoriUtama').value;
     const sub = document.getElementById('subKategori');
@@ -320,55 +387,24 @@ window.toggleFormMateri = function() {
     const fieldUmum = document.getElementById('fieldsUmum');
 
     if(kat === 'kebidanan') {
-        // Tampilkan Form B (List Poin) & Sembunyikan Form C
         sub.innerHTML = '<option value="anc">1.a ANC</option><option value="inc">1.b INC</option><option value="pnc">1.c PNC</option><option value="kehamilan_sehat">2. Kehamilan Sehat</option>';
         fieldKebidanan.classList.remove('hidden');
         fieldUmum.classList.add('hidden');
     } else {
-        // Tampilkan Form C (Artikel Lengkap Quill) & Sembunyikan Form B
         sub.innerHTML = '<option value="kesehatan">a. Kesehatan Ibu</option><option value="gizi">b. Gizi & Nutrisi</option>';
         fieldKebidanan.classList.add('hidden');
         fieldUmum.classList.remove('hidden');
     }
 }
 
-// Jalankan saat web pertama di-load
+// ==========================================
+// INIT KETIKA WEB DIBUKA
+// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
+    checkAuthSession();
+    fetchBeranda();
+    fetchAnggota();
+    fetchMateri();
+    fetchGaleri();
     toggleFormMateri();
 });
-
-// Logika untuk merender artikel full page
-window.bacaArtikelLengkap = function(id) {
-    console.log("Klik terdeteksi! Mencari artikel dengan ID:", id);
-
-    // PERBAIKAN: Gunakan String() untuk menyamakan tipe data antara database dan HTML
-    const item = allMateri.find(m => String(m.id) === String(id));
-    
-    if(!item) {
-        console.error("Gagal memuat: ID Artikel tidak ditemukan di dalam memori!");
-        return; 
-    }
-
-    console.log("Artikel berhasil ditemukan:", item.judul);
-
-    document.getElementById('articleContent').innerHTML = `
-        ${item.badge_label ? `<span class="px-3 py-1 bg-brand-100 text-brand-700 text-xs font-bold rounded-full mb-4 inline-block">${item.badge_label}</span>` : ''}
-        <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight">${item.judul}</h1>
-        ${item.gambar_url ? `<img src="${item.gambar_url}" class="w-full h-64 md:h-[400px] object-cover rounded-2xl mb-8 shadow-sm border border-slate-100">` : ''}
-        
-        <!-- Teks Artikel (Menggunakan styling bawaan teks editor) -->
-        <div class="text-slate-700 leading-relaxed text-base space-y-4">
-            ${item.isi_artikel}
-        </div>
-    `;
-    
-    // Tampilkan Modal & Kunci Scroll Background
-    document.getElementById('articleModal').classList.remove('hidden');
-    document.body.style.overflow = 'hidden'; 
-}
-
-window.tutupArtikel = function() {
-    // Tutup Modal & Kembalikan Scroll Background
-    document.getElementById('articleModal').classList.add('hidden');
-    document.body.style.overflow = 'auto';
-}
