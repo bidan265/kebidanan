@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cahaya Bintang Motor - Dealer Resmi & Counter Traffic</title>
+    <!-- Font & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- CSS Eksternal -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- SDK Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <!-- NAVBAR (Evaluasi 1 & 2: Tampilan & Menu Website) -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <span class="logo-icon"><i class="fa-solid fa-car-side"></i></span>
+                <span>Cahaya Bintang <em>Motor</em></span>
+            </a>
+            <nav class="nav-links" id="navLinks">
+                <a href="#beranda" class="active">Beranda</a>
+                <a href="#produk">Produk & Harga</a>
+                <a href="#cara-transaksi">Cara Transaksi</a>
+                <a href="#pembayaran">Sistem Pembayaran</a>
+                <a href="#testimoni">Testimoni</a>
+                <a href="#traffic-dashboard" class="badge-nav"><i class="fa-solid fa-chart-line"></i> Traffic Bisnis</a>
+                <a href="#kontak">Kontak Kami</a>
+            </nav>
+            <button class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- HERO BANNER -->
+    <section id="beranda" class="hero">
+        <img src="img/hero-brv.jpg" alt="BR-V N7X Edition" class="hero-img" onerror="this.src='https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1600&q=80'">
+        <div class="hero-overlay">
+            <div class="container">
+                <span class="hero-subtitle">BR-V</span>
+                <h1 class="hero-title">N7X <span>EDITION</span></h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAR COUNTER TRAFFIC CEPAT (Ringkasan Langsung) -->
+    <section class="quick-traffic-bar">
+        <div class="container traffic-bar-grid">
+            <div class="traffic-mini-item">
+                <i class="fa-solid fa-eye"></i>
+                <div>
+                    <small>Total Calon Konsumen Mampir</small>
+                    <strong id="quickTotalViews">0</strong>
+                </div>
+            </div>
+            <div class="traffic-mini-item">
+                <i class="fa-solid fa-users"></i>
+                <div>
+                    <small>Pengunjung Unik</small>
+                    <strong id="quickUniqueVisitors">0</strong>
+                </div>
+            </div>
+            <div class="traffic-mini-item">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <div>
+                    <small>Minat Beli / Klik Transaksi</small>
+                    <strong id="quickTotalLeads">0</strong>
+                </div>
+            </div>
+            <div class="traffic-mini-item highlight">
+                <i class="fa-solid fa-bolt"></i>
+                <div>
+                    <small>Rasio Konversi (Acuan Bisnis)</small>
+                    <strong id="quickConversionRate">0%</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KATALOG PRODUK (Sesuai Referensi Mobil 1 Velocity) -->
+    <section id="produk" class="section-padding">
+        <div class="container">
+            <div class="section-badge-wrapper">
+                <div class="skew-badge">PILIH MODEL TERBAIK</div>
+            </div>
+
+            <div class="product-grid">
+                <!-- Card 1: Test -->
+                <div class="product-card">
+                    <div class="img-box">
+                        <img src="img/test-car.jpg" alt="Test" onerror="this.src='https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80'">
+                    </div>
+                    <h3>Test</h3>
+                    <button class="btn-wa-card" onclick="recordBuyIntent('test', 'Test Unit')">
+                        <i class="fa-brands fa-whatsapp"></i> Hubungi Admin
+                    </button>
+                </div>
+
+                <!-- Card 2: New Hilux -->
+                <div class="product-card">
+                    <div class="img-box">
+                        <img src="img/hilux.png" alt="New Hilux" onerror="this.src='https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&w=600&q=80'">
+                    </div>
+                    <h3>New Hilux</h3>
+                    <div class="price-list">
+                        <div class="price-bar">Harga Mulai Rp 213.600.000,00</div>
+                        <div class="price-bar">DP Mulai Rp 20 Jutaan</div>
+                        <div class="price-bar">Cicilan Mulai Rp 3 Jutaan</div>
+                    </div>
+                    <button class="btn-buy-card" onclick="recordBuyIntent('hilux', 'New Hilux')">
+                        <i class="fa-solid fa-bag-shopping"></i> Beli / Tanya Unit
+                    </button>
+                </div>
+
+                <!-- Card 3: New Vios -->
+                <div class="product-card">
+                    <div class="img-box">
+                        <img src="img/vios.png" alt="New Vios" onerror="this.src='https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80'">
+                    </div>
+                    <h3>New Vios</h3>
+                    <div class="price-list">
+                        <div class="price-bar">Harga Mulai Rp 285.100.000,00</div>
+                        <div class="price-bar">DP Mulai Rp 5 Jutaan</div>
+                        <div class="price-bar">Cicilan Mulai Rp 3 Jutaan</div>
+                    </div>
+                    <button class="btn-buy-card" onclick="recordBuyIntent('vios', 'New Vios')">
+                        <i class="fa-solid fa-bag-shopping"></i> Beli / Tanya Unit
+                    </button>
+                </div>
+
+                <!-- Card 4: All New Kijang Innova -->
+                <div class="product-card">
+                    <div class="img-box">
+                        <img src="img/innova.png" alt="All New Kijang Innova" onerror="this.src='https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80'">
+                    </div>
+                    <h3>All New Kijang Innova</h3>
+                    <div class="price-list">
+                        <div class="price-bar">Harga Mulai Rp 309.300.000,00</div>
+                        <div class="price-bar">DP Mulai Rp 20 Jutaan</div>
+                        <div class="price-bar">Cicilan Mulai Rp 3 Jutaan</div>
+                    </div>
+                    <button class="btn-buy-card" onclick="recordBuyIntent('innova', 'All New Kijang Innova')">
+                        <i class="fa-solid fa-bag-shopping"></i> Beli / Tanya Unit
+                    </button>
+                </div>
+
+                <!-- Card 5: New Rush -->
+                <div class="product-card">
+                    <div class="img-box">
+                        <img src="img/rush.png" alt="New Rush" onerror="this.src='https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=600&q=80'">
+                    </div>
+                    <h3>New Rush</h3>
+                    <div class="price-list">
+                        <div class="price-bar">Harga Mulai Rp 249.300.000,00</div>
+                        <div class="price-bar">DP Mulai Rp 20 Jutaan</div>
+                        <div class="price-bar">Cicilan Mulai Rp 3 Jutaan</div>
+                    </div>
+                    <button class="btn-buy-card" onclick="recordBuyIntent('rush', 'New Rush')">
+                        <i class="fa-solid fa-bag-shopping"></i> Beli / Tanya Unit
+                    </button>
+                </div>
+
+                <!-- Card 6: Grand New Avanza -->
+                <div class="product-card">
+                    <div class="img-box">
+                        <img src="img/avanza.png" alt="Grand New Avanza" onerror="this.src='https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=600&q=80'">
+                    </div>
+                    <h3>Grand New Avanza</h3>
+                    <div class="price-list">
+                        <div class="price-bar">Harga Mulai Rp 192.100.000,00</div>
+                        <div class="price-bar">DP Mulai Rp 20 Jutaan</div>
+                        <div class="price-bar">Cicilan Mulai Rp 3 Jutaan</div>
+                    </div>
+                    <button class="btn-buy-card" onclick="recordBuyIntent('avanza', 'Grand New Avanza')">
+                        <i class="fa-solid fa-bag-shopping"></i> Beli / Tanya Unit
+                    </button>
+                </div>
+            </div>
+
+            <div class="center-btn-wrapper">
+                <a href="#cara-transaksi" class="btn-selengkapnya">Selengkapnya</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- EVALUASI 3, 4 & 7: CARA CUSTOMER TRANSAKSI & SISTEM PEMBAYARAN -->
+    <section id="cara-transaksi" class="section-padding bg-light">
+        <div class="container">
+            <div class="section-badge-wrapper">
+                <div class="skew-badge">CARA TRANSAKSI & PEMBAYARAN</div>
+            </div>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h4>Pilih Mobil & Konsultasi</h4>
+                    <p>Pilih unit mobil di katalog dan klik tombol beli untuk terhubung dengan Sales Consultant kami.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h4>Test Drive & Simulasi</h4>
+                    <p>Jadwalkan test drive di lokasi Anda atau minta perhitungan simulasi DP dan cicilan terbaik.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h4>Booking Fee & Pemberkasan</h4>
+                    <p>Lakukan pembayaran Booking Fee melalui rekening resmi dealer dan lengkapi dokumen SPK.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <h4>Pelunasan / Akad & Kirim Unit</h4>
+                    <p>Setelah pembayaran Cash lunas atau PO Leasing turun, mobil langsung dikirim ke garasi Anda.</p>
+                </div>
+            </div>
+
+            <!-- Sistem Pembayaran -->
+            <div id="pembayaran" class="payment-box">
+                <h3><i class="fa-solid fa-credit-card"></i> Pilihan Sistem Pembayaran Resmi</h3>
+                <div class="payment-methods">
+                    <div class="pay-item">
+                        <strong><i class="fa-solid fa-money-bill-wave"></i> Tunai (Cash Keras / Bertahap)</strong>
+                        <p>Transfer langsung ke Rekening Resmi Dealer PT Mobil Satu Velocity (BCA / Mandiri / BRI).</p>
+                    </div>
+                    <div class="pay-item">
+                        <strong><i class="fa-solid fa-file-invoice-dollar"></i> Kredit / Leasing Rekanan</strong>
+                        <p>Didukung oleh ACC, Toyota Astra Finance (TAF), BCA Finance, Mandiri Tunas Finance dengan bunga ringan.</p>
+                    </div>
+                    <div class="pay-item">
+                        <strong><i class="fa-solid fa-rotate"></i> Trade-In (Tukar Tambah)</strong>
+                        <p>Tukar mobil lama Anda segala merek dengan harga taksiran tertinggi sebagai DP mobil baru.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EVALUASI 7: DATA TESTIMONI PELANGGAN -->
+    <section id="testimoni" class="section-padding">
+        <div class="container">
+            <div class="section-badge-wrapper">
+                <div class="skew-badge">DATA TESTIMONI PEMBELI</div>
+            </div>
+            <div class="testi-grid">
+                <div class="testi-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Proses kredit All New Kijang Innova sangat cepat, DP ringan sesuai iklan di website dan staf sangat responsif!"</p>
+                    <h5>— Bpk. Hendra Wijaya (Jakarta)</h5>
+                    <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> Pembeli Terverifikasi</span>
+                </div>
+                <div class="testi-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Ambil Grand New Avanza untuk operasional usaha. Hitungan cicilannya transparan dan unit diantar tepat waktu."</p>
+                    <h5>— Ibu Siti Rahmawati (Tangerang)</h5>
+                    <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> Pembeli Terverifikasi</span>
+                </div>
+                <div class="testi-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Tukar tambah mobil lama ke New Rush prosesnya mudah sekali. Harga taksirannya tinggi dan langsung potong DP."</p>
+                    <h5>— Bpk. Antonius Pratama (Bekasi)</h5>
+                    <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> Pembeli Terverifikasi</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EVALUASI 6: TAMPILAN COUNTER TRAFFIC USER & ACUAN IMPROVEMENT BISNIS -->
+    <section id="traffic-dashboard" class="section-padding bg-dark-analytics">
+        <div class="container">
+            <div class="analytics-header">
+                <div>
+                    <span class="tag-analytics">DATA REAL-TIME PEBISNIS</span>
+                    <h2>Counter Traffic & Evaluasi Improvement</h2>
+                    <p>Memantau jumlah calon konsumen yang mampir ke toko dan mengklik pembelian produk sebagai acuan perbaikan bisnis.</p>
+                </div>
+                <div class="db-status" id="dbStatusBadge">
+                    <span class="dot"></span> Mode Penyimpanan: Mengecek...
+                </div>
+            </div>
+
+            <!-- 4 KPI Utama -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <span class="kpi-title">1. Calon Konsumen Mampir (Page Views)</span>
+                    <h3 id="statTotalViews">0</h3>
+                    <small>Total kunjungan halaman toko dibuka</small>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-title">2. Pengunjung Unik (Orang Berbeda)</span>
+                    <h3 id="statUniqueVisitors">0</h3>
+                    <small>Jumlah calon pembeli unik yang datang</small>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-title">3. Klik Beli / Tanya Produk (Leads)</span>
+                    <h3 id="statTotalLeads">0</h3>
+                    <small>Jumlah aksi menekan tombol beli/WA</small>
+                </div>
+                <div class="kpi-card kpi-accent">
+                    <span class="kpi-title">4. Conversion Rate (Rasio Pembelian)</span>
+                    <h3 id="statConversionRate">0%</h3>
+                    <small id="insightConversion">Menghitung efektivitas toko...</small>
+                </div>
+            </div>
+
+            <!-- Tabel & Rekomendasi Improvement Otomatis -->
+            <div class="analytics-bottom-grid">
+                <div class="analytics-box">
+                    <h4><i class="fa-solid fa-ranking-star"></i> Performa Minat Beli per Mobil</h4>
+                    <p class="sub-text">Mengetahui produk mana yang paling diminati dan mana yang butuh evaluasi promo/harga:</p>
+                    <div id="productPerformanceList" class="perf-list">
+                        <!-- Diisi otomatis oleh JavaScript -->
+                    </div>
+                </div>
+
+                <div class="analytics-box">
+                    <h4><i class="fa-solid fa-lightbulb"></i> Rekomendasi Improvement Otomatis</h4>
+                    <p class="sub-text">Acuan keputusan bisnis berdasarkan data Counter Traffic saat ini:</p>
+                    <ul class="improvement-list" id="improvementAdvice">
+                        <!-- Diisi otomatis oleh JavaScript -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER & KONTAK -->
+    <footer id="kontak" class="footer">
+        <div class="container footer-grid">
+            <div>
+                <h4>Mobil 1 Velocity</h4>
+                <p>Dealer resmi penjualan mobil baru dengan layanan tunai, kredit bunga ringan, dan tukar tambah terpercaya.</p>
+            </div>
+            <div>
+                <h4>Jam Operasional</h4>
+                <p>Senin - Sabtu: 08.00 - 17.00 WIB<br>Minggu / Hari Libur: Dengan Janji Temu</p>
+            </div>
+            <div>
+                <h4>Hubungi Customer Support</h4>
+                <p><i class="fa-brands fa-whatsapp"></i> +62 812-9553-0462<br><i class="fa-solid fa-envelope"></i> sales@mobil1velocity.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Mobil 1 Velocity. Dilengkapi Sistem Counter Traffic & Analitik Bisnis.</p>
+        </div>
+    </footer>
+
+    <!-- EVALUASI 5: FITUR CUSTOMER SUPPORT (Floating Live Help) -->
+    <div class="cs-floating">
+        <a href="https://wa.me/6281295530462?text=Halo%20Customer%20Support%20Mobil%201%20Velocity,%20saya%20ingin%20bertanya%20mengenai%20unit%20mobil." 
+           target="_blank" 
+           class="cs-btn"
+           onclick="recordBuyIntent('cs_support', 'Customer Support Umum')">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>Customer Support</span>
+        </a>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
