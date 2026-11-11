@@ -2,360 +2,690 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cahaya Bintang Motor - Dealer Resmi & Counter Traffic</title>
-    <!-- Font & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- CSS Eksternal -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cahaya Bintang Motor - Dealer Mobil & Analitik Traffic Bisnis</title>
+
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6.5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Swiper.js CSS (Untuk Slideshow Banner Halus) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- AOS CSS (Sesuai Dokumentasi Resmi) -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
-    <!-- SDK Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-    <!-- NAVBAR (Evaluasi 1 & 2: Tampilan & Menu Website) -->
-    <header class="navbar">
-        <div class="container nav-container">
-            <a href="#" class="logo">
-                <span class="logo-icon"><i class="fa-solid fa-car-side"></i></span>
-                <span>Cahaya Bintang <em>Motor</em></span>
+    <!-- NAVBAR ELEGAN & RESPONSIVE -->
+    <nav class="navbar navbar-expand-lg fixed-top custom-navbar" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="#beranda">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <div class="brand-text">
+                    <span class="fw-extrabold text-primary-dark">CAHAYA BINTANG</span>
+                    <small class="d-block text-gold fw-bold">MOTOR OFFICIAL</small>
+                </div>
             </a>
-            <nav class="nav-links" id="navLinks">
-                <a href="#beranda" class="active">Beranda</a>
-                <a href="#produk">Produk & Harga</a>
-                <a href="#cara-transaksi">Cara Transaksi</a>
-                <a href="#pembayaran">Sistem Pembayaran</a>
-                <a href="#testimoni">Testimoni</a>
-                <a href="#traffic-dashboard" class="badge-nav"><i class="fa-solid fa-chart-line"></i> Traffic Bisnis</a>
-                <a href="#kontak">Kontak Kami</a>
-            </nav>
-            <button class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></button>
-        </div>
-    </header>
 
-    <!-- HERO BANNER -->
-    <section id="beranda" class="hero">
-        <img src="img/hero-brv.jpg" alt="BR-V N7X Edition" class="hero-img" onerror="this.src='https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1600&q=80'">
-        <div class="hero-overlay">
-            <div class="container">
-                <span class="hero-subtitle">BR-V</span>
-                <h1 class="hero-title">N7X <span>EDITION</span></h1>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fa-solid fa-bars-staggered fs-4 text-primary-dark"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2 pt-3 pt-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="#beranda">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#katalog">Katalog Mobil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#cara-transaksi">Cara Transaksi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#testimoni">Testimoni</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#traffic-section"><i class="fa-solid fa-chart-pie me-1 text-primary"></i>Counter Traffic</a></li>
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <button class="btn btn-admin-nav w-100" id="btnNavAdmin" onclick="openAdminGate()">
+                            <i class="fa-solid fa-user-shield me-1"></i> <span id="adminNavText">Panel Admin</span>
+                        </button>
+                    </li>
+                </ul>
             </div>
         </div>
-    </section>
+    </nav>
 
-    <!-- BAR COUNTER TRAFFIC CEPAT (Ringkasan Langsung) -->
-    <section class="quick-traffic-bar">
-        <div class="container traffic-bar-grid">
-            <div class="traffic-mini-item">
-                <i class="fa-solid fa-eye"></i>
-                <div>
-                    <small>Total Calon Konsumen Mampir</small>
-                    <strong id="quickTotalViews">0</strong>
-                </div>
+    <!-- HERO SECTION / SLIDESHOW BANNER (Otomatis Slideshow Jika > 1 Banner) -->
+    <section id="beranda" class="hero-section">
+        <div class="swiper heroSwiper" id="heroSwiperContainer">
+            <div class="swiper-wrapper" id="bannerWrapper">
+                <!-- Diisi secara dinamis oleh JS dari Database -->
             </div>
-            <div class="traffic-mini-item">
-                <i class="fa-solid fa-users"></i>
-                <div>
-                    <small>Pengunjung Unik</small>
-                    <strong id="quickUniqueVisitors">0</strong>
-                </div>
-            </div>
-            <div class="traffic-mini-item">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <div>
-                    <small>Minat Beli / Klik Transaksi</small>
-                    <strong id="quickTotalLeads">0</strong>
-                </div>
-            </div>
-            <div class="traffic-mini-item highlight">
-                <i class="fa-solid fa-bolt"></i>
-                <div>
-                    <small>Rasio Konversi (Acuan Bisnis)</small>
-                    <strong id="quickConversionRate">0%</strong>
-                </div>
-            </div>
+            <!-- Navigasi & Pagination (Otomatis disembunyikan jika hanya 1 banner) -->
+            <div class="swiper-button-next hero-nav-btn" id="heroNext"></div>
+            <div class="swiper-button-prev hero-nav-btn" id="heroPrev"></div>
+            <div class="swiper-pagination" id="heroPagination"></div>
         </div>
     </section>
 
-    <!-- KATALOG PRODUK (Sesuai Referensi Mobil 1 Velocity) -->
-    <section id="produk" class="section-padding">
+    <!-- BAR COUNTER TRAFFIC REAL-TIME (Melayang di Bawah Banner) -->
+    <section class="traffic-strip-wrapper">
         <div class="container">
-            <div class="section-badge-wrapper">
-                <div class="skew-badge">PILIH MODEL TERBAIK</div>
-            </div>
-
-            <div class="product-grid">
-                <!-- Card 1: Test -->
-                <div class="product-card">
-                    <div class="img-box">
-                        <img src="img/test-car.jpg" alt="Test" onerror="this.src='https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80'">
+            <div class="traffic-strip shadow-lg" data-aos="fade-up" data-aos-duration="800" data-aos-offset="50">
+                <div class="row g-3 align-items-center text-center text-md-start">
+                    <div class="col-6 col-lg-3 border-end-lg">
+                        <div class="d-flex flex-column flex-md-row align-items-center gap-2 gap-md-3">
+                            <div class="strip-icon bg-soft-blue text-primary"><i class="fa-solid fa-eye"></i></div>
+                            <div>
+                                <small class="text-muted d-block">Konsumen Mampir</small>
+                                <h4 class="fw-extrabold mb-0" id="quickViews">0</h4>
+                            </div>
+                        </div>
                     </div>
-                    <h3>Test</h3>
-                    <button class="btn-wa-card" onclick="recordBuyIntent('test', 'Test Unit')">
-                        <i class="fa-brands fa-whatsapp"></i> Hubungi Admin
-                    </button>
-                </div>
-
-                <!-- Card 2: New Hilux -->
-                <div class="product-card">
-                    <div class="img-box">
-                        <img src="img/hilux.png" alt="New Hilux" onerror="this.src='https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&w=600&q=80'">
+                    <div class="col-6 col-lg-3 border-end-lg">
+                        <div class="d-flex flex-column flex-md-row align-items-center gap-2 gap-md-3">
+                            <div class="strip-icon bg-soft-green text-success"><i class="fa-solid fa-user-check"></i></div>
+                            <div>
+                                <small class="text-muted d-block">Pengunjung Unik</small>
+                                <h4 class="fw-extrabold mb-0" id="quickUnique">0</h4>
+                            </div>
+                        </div>
                     </div>
-                    <h3>New Hilux</h3>
-                    <div class="price-list">
-                        <div class="price-bar">Harga Mulai Rp 213.600.000,00</div>
-                        <div class="price-bar">DP Mulai Rp 20 Jutaan</div>
-                        <div class="price-bar">Cicilan Mulai Rp 3 Jutaan</div>
+                    <div class="col-6 col-lg-3 border-end-lg">
+                        <div class="d-flex flex-column flex-md-row align-items-center gap-2 gap-md-3">
+                            <div class="strip-icon bg-soft-amber text-warning"><i class="fa-solid fa-bag-shopping"></i></div>
+                            <div>
+                                <small class="text-muted d-block">Klik Beli / Minat</small>
+                                <h4 class="fw-extrabold mb-0" id="quickLeads">0</h4>
+                            </div>
+                        </div>
                     </div>
-                    <button class="btn-buy-card" onclick="recordBuyIntent('hilux', 'New Hilux')">
-                        <i class="fa-solid fa-bag-shopping"></i> Beli / Tanya Unit
-                    </button>
-                </div>
-
-                <!-- Card 3: New Vios -->
-                <div class="product-card">
-                    <div class="img-box">
-                        <img src="img/vios.png" alt="New Vios" onerror="this.src='https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80'">
-                    </div>
-                    <h3>New Vios</h3>
-                    <div class="price-list">
-                        <div class="price-bar">Harga Mulai Rp 285.100.000,00</div>
-                        <div class="price-bar">DP Mulai Rp 5 Jutaan</div>
-                        <div class="price-bar">Cicilan Mulai Rp 3 Jutaan</div>
-                    </div>
-                    <button class="btn-buy-card" onclick="recordBuyIntent('vios', 'New Vios')">
-                        <i class="fa-solid fa-bag-shopping"></i> Beli / Tanya Unit
-                    </button>
-                </div>
-
-                <!-- Card 4: All New Kijang Innova -->
-                <div class="product-card">
-                    <div class="img-box">
-                        <img src="img/innova.png" alt="All New Kijang Innova" onerror="this.src='https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80'">
-                    </div>
-                    <h3>All New Kijang Innova</h3>
-                    <div class="price-list">
-                        <div class="price-bar">Harga Mulai Rp 309.300.000,00</div>
-                        <div class="price-bar">DP Mulai Rp 20 Jutaan</div>
-                        <div class="price-bar">Cicilan Mulai Rp 3 Jutaan</div>
-                    </div>
-                    <button class="btn-buy-card" onclick="recordBuyIntent('innova', 'All New Kijang Innova')">
-                        <i class="fa-solid fa-bag-shopping"></i> Beli / Tanya Unit
-                    </button>
-                </div>
-
-                <!-- Card 5: New Rush -->
-                <div class="product-card">
-                    <div class="img-box">
-                        <img src="img/rush.png" alt="New Rush" onerror="this.src='https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=600&q=80'">
-                    </div>
-                    <h3>New Rush</h3>
-                    <div class="price-list">
-                        <div class="price-bar">Harga Mulai Rp 249.300.000,00</div>
-                        <div class="price-bar">DP Mulai Rp 20 Jutaan</div>
-                        <div class="price-bar">Cicilan Mulai Rp 3 Jutaan</div>
-                    </div>
-                    <button class="btn-buy-card" onclick="recordBuyIntent('rush', 'New Rush')">
-                        <i class="fa-solid fa-bag-shopping"></i> Beli / Tanya Unit
-                    </button>
-                </div>
-
-                <!-- Card 6: Grand New Avanza -->
-                <div class="product-card">
-                    <div class="img-box">
-                        <img src="img/avanza.png" alt="Grand New Avanza" onerror="this.src='https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=600&q=80'">
-                    </div>
-                    <h3>Grand New Avanza</h3>
-                    <div class="price-list">
-                        <div class="price-bar">Harga Mulai Rp 192.100.000,00</div>
-                        <div class="price-bar">DP Mulai Rp 20 Jutaan</div>
-                        <div class="price-bar">Cicilan Mulai Rp 3 Jutaan</div>
-                    </div>
-                    <button class="btn-buy-card" onclick="recordBuyIntent('avanza', 'Grand New Avanza')">
-                        <i class="fa-solid fa-bag-shopping"></i> Beli / Tanya Unit
-                    </button>
-                </div>
-            </div>
-
-            <div class="center-btn-wrapper">
-                <a href="#cara-transaksi" class="btn-selengkapnya">Selengkapnya</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- EVALUASI 3, 4 & 7: CARA CUSTOMER TRANSAKSI & SISTEM PEMBAYARAN -->
-    <section id="cara-transaksi" class="section-padding bg-light">
-        <div class="container">
-            <div class="section-badge-wrapper">
-                <div class="skew-badge">CARA TRANSAKSI & PEMBAYARAN</div>
-            </div>
-
-            <div class="steps-grid">
-                <div class="step-card">
-                    <div class="step-num">1</div>
-                    <h4>Pilih Mobil & Konsultasi</h4>
-                    <p>Pilih unit mobil di katalog dan klik tombol beli untuk terhubung dengan Sales Consultant kami.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-num">2</div>
-                    <h4>Test Drive & Simulasi</h4>
-                    <p>Jadwalkan test drive di lokasi Anda atau minta perhitungan simulasi DP dan cicilan terbaik.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-num">3</div>
-                    <h4>Booking Fee & Pemberkasan</h4>
-                    <p>Lakukan pembayaran Booking Fee melalui rekening resmi dealer dan lengkapi dokumen SPK.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-num">4</div>
-                    <h4>Pelunasan / Akad & Kirim Unit</h4>
-                    <p>Setelah pembayaran Cash lunas atau PO Leasing turun, mobil langsung dikirim ke garasi Anda.</p>
-                </div>
-            </div>
-
-            <!-- Sistem Pembayaran -->
-            <div id="pembayaran" class="payment-box">
-                <h3><i class="fa-solid fa-credit-card"></i> Pilihan Sistem Pembayaran Resmi</h3>
-                <div class="payment-methods">
-                    <div class="pay-item">
-                        <strong><i class="fa-solid fa-money-bill-wave"></i> Tunai (Cash Keras / Bertahap)</strong>
-                        <p>Transfer langsung ke Rekening Resmi Dealer PT Mobil Satu Velocity (BCA / Mandiri / BRI).</p>
-                    </div>
-                    <div class="pay-item">
-                        <strong><i class="fa-solid fa-file-invoice-dollar"></i> Kredit / Leasing Rekanan</strong>
-                        <p>Didukung oleh ACC, Toyota Astra Finance (TAF), BCA Finance, Mandiri Tunas Finance dengan bunga ringan.</p>
-                    </div>
-                    <div class="pay-item">
-                        <strong><i class="fa-solid fa-rotate"></i> Trade-In (Tukar Tambah)</strong>
-                        <p>Tukar mobil lama Anda segala merek dengan harga taksiran tertinggi sebagai DP mobil baru.</p>
+                    <div class="col-6 col-lg-3">
+                        <div class="d-flex flex-column flex-md-row align-items-center gap-2 gap-md-3">
+                            <div class="strip-icon bg-gradient-gold text-white"><i class="fa-solid fa-bolt"></i></div>
+                            <div>
+                                <small class="text-muted d-block">Rasio Konversi</small>
+                                <h4 class="fw-extrabold text-primary mb-0" id="quickConv">0%</h4>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- EVALUASI 7: DATA TESTIMONI PELANGGAN -->
-    <section id="testimoni" class="section-padding">
+    <!-- KATALOG PRODUK DINAMIS (Sesuai Referensi + Efek AOS) -->
+    <section id="katalog" class="section-py">
         <div class="container">
-            <div class="section-badge-wrapper">
-                <div class="skew-badge">DATA TESTIMONI PEMBELI</div>
+            <div class="text-center mb-5" data-aos="fade-up" data-aos-duration="700">
+                <div class="skew-badge mb-2">PILIH MODEL TERBAIK</div>
+                <h2 class="section-title">Koleksi Unit Cahaya Bintang Motor</h2>
+                <p class="text-muted mx-auto" style="max-width: 600px;">
+                    Pilih unit impian Anda dengan penawaran harga, DP ringan, dan cicilan paling kompetitif.
+                </p>
             </div>
-            <div class="testi-grid">
-                <div class="testi-card">
-                    <div class="stars">★★★★★</div>
-                    <p>"Proses kredit All New Kijang Innova sangat cepat, DP ringan sesuai iklan di website dan staf sangat responsif!"</p>
-                    <h5>— Bpk. Hendra Wijaya (Jakarta)</h5>
-                    <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> Pembeli Terverifikasi</span>
+
+            <!-- Grid Katalog Mobil (Diisi Dinamis oleh JS) -->
+            <div class="row g-4" id="productCatalogGrid"></div>
+        </div>
+    </section>
+
+    <!-- CARA TRANSAKSI & SISTEM PEMBAYARAN -->
+    <section id="cara-transaksi" class="section-py bg-soft-section">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <div class="skew-badge mb-2">PROSEDUR MUDAH & AMAN</div>
+                <h2 class="section-title">Cara Transaksi & Sistem Pembayaran</h2>
+                <p class="text-muted">4 Langkah praktis memiliki mobil impian tanpa ribet di Cahaya Bintang Motor</p>
+            </div>
+
+            <div class="row g-4 mb-5">
+                <div class="col-12 col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="50">
+                    <div class="step-card-modern h-100">
+                        <div class="step-badge">01</div>
+                        <i class="fa-solid fa-car-on fs-2 text-primary mb-3"></i>
+                        <h5 class="fw-bold">Pilih Unit & Sales</h5>
+                        <p class="text-muted small mb-0">Klik tombol Beli/Tanya pada mobil pilihan Anda, lalu pilih salah satu dari 3 Sales Consultant kami.</p>
+                    </div>
                 </div>
-                <div class="testi-card">
-                    <div class="stars">★★★★★</div>
-                    <p>"Ambil Grand New Avanza untuk operasional usaha. Hitungan cicilannya transparan dan unit diantar tepat waktu."</p>
-                    <h5>— Ibu Siti Rahmawati (Tangerang)</h5>
-                    <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> Pembeli Terverifikasi</span>
+                <div class="col-12 col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="150">
+                    <div class="step-card-modern h-100">
+                        <div class="step-badge">02</div>
+                        <i class="fa-solid fa-calculator fs-2 text-primary mb-3"></i>
+                        <h5 class="fw-bold">Simulasi & Test Drive</h5>
+                        <p class="text-muted small mb-0">Dapatkan hitungan DP & angsuran paling pas di kantong serta jadwalkan test drive di rumah Anda.</p>
+                    </div>
                 </div>
-                <div class="testi-card">
-                    <div class="stars">★★★★★</div>
-                    <p>"Tukar tambah mobil lama ke New Rush prosesnya mudah sekali. Harga taksirannya tinggi dan langsung potong DP."</p>
-                    <h5>— Bpk. Antonius Pratama (Bekasi)</h5>
-                    <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> Pembeli Terverifikasi</span>
+                <div class="col-12 col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="250">
+                    <div class="step-card-modern h-100">
+                        <div class="step-badge">03</div>
+                        <i class="fa-solid fa-file-signature fs-2 text-primary mb-3"></i>
+                        <h5 class="fw-bold">SPK & Pemberkasan</h5>
+                        <p class="text-muted small mb-0">Booking unit melalui rekening resmi dealer dan tim kami akan menjemput dokumen persyaratan Anda.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="350">
+                    <div class="step-card-modern h-100">
+                        <div class="step-badge">04</div>
+                        <i class="fa-solid fa-truck-fast fs-2 text-primary mb-3"></i>
+                        <h5 class="fw-bold">Serah Terima Unit</h5>
+                        <p class="text-muted small mb-0">Setelah pelunasan atau akad kredit selesai, mobil diantar langsung menuju garasi rumah Anda.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metode Pembayaran -->
+            <div class="payment-panel p-4 p-lg-5 rounded-4 bg-white shadow-sm" data-aos="zoom-in" data-aos-duration="700">
+                <div class="row g-4 align-items-center">
+                    <div class="col-lg-4">
+                        <span class="badge bg-primary-subtle text-primary mb-2 px-3 py-2 rounded-pill fw-bold">100% TRANSPARAN</span>
+                        <h3 class="fw-extrabold mb-2">Pilihan Sistem Pembayaran Resmi</h3>
+                        <p class="text-muted small mb-0">Seluruh transaksi dijamin aman melalui rekening resmi perusahaan Cahaya Bintang Motor.</p>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="pay-method-card h-100">
+                                    <i class="fa-solid fa-building-columns text-primary fs-3 mb-2"></i>
+                                    <h6 class="fw-bold">Tunai / Cash Keras</h6>
+                                    <p class="small text-muted mb-0">Transfer via Bank BCA, Mandiri, BRI & BNI atas nama PT Cahaya Bintang Motor.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pay-method-card h-100">
+                                    <i class="fa-solid fa-hand-holding-dollar text-success fs-3 mb-2"></i>
+                                    <h6 class="fw-bold">Kredit Bunga Ringan</h6>
+                                    <p class="small text-muted mb-0">Didukung BCA Finance, TAF, ACC, dan Mandiri Tunas Finance tenor hingga 6 tahun.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pay-method-card h-100">
+                                    <i class="fa-solid fa-arrows-rotate text-warning fs-3 mb-2"></i>
+                                    <h6 class="fw-bold">Trade-In (Tukar Tambah)</h6>
+                                    <p class="small text-muted mb-0">Tukar mobil lama Anda segala merek sebagai potong DP mobil baru secara instan.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- EVALUASI 6: TAMPILAN COUNTER TRAFFIC USER & ACUAN IMPROVEMENT BISNIS -->
-    <section id="traffic-dashboard" class="section-padding bg-dark-analytics">
+    <!-- TESTIMONI PELANGGAN -->
+    <section id="testimoni" class="section-py">
         <div class="container">
-            <div class="analytics-header">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <div class="skew-badge mb-2">KEPUASAN PELANGGAN</div>
+                <h2 class="section-title">Apa Kata Pembeli Kami?</h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="50">
+                    <div class="testi-card-modern h-100">
+                        <div class="text-warning mb-3"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="fst-italic text-secondary">"Pelayanan Cahaya Bintang Motor luar biasa! Pilih sales lewat popup web, langsung direspon cepat dan hitungan cicilan Innova-nya paling murah."</p>
+                        <div class="d-flex align-items-center gap-3 mt-4 pt-3 border-top">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" class="rounded-circle object-fit-cover" width="48" height="48" alt="Client">
+                            <div>
+                                <h6 class="fw-bold mb-0">Bpk. Hendra Wijaya</h6>
+                                <small class="text-success fw-semibold"><i class="fa-solid fa-circle-check me-1"></i>Pembeli Kijang Innova</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="150">
+                    <div class="testi-card-modern h-100">
+                        <div class="text-warning mb-3"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="fst-italic text-secondary">"DP 20 jutaan beneran nyata tanpa biaya tersembunyi. Berkas dijemput ke rumah dan 4 hari kerja Grand New Avanza sudah parkir di garasi."</p>
+                        <div class="d-flex align-items-center gap-3 mt-4 pt-3 border-top">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80" class="rounded-circle object-fit-cover" width="48" height="48" alt="Client">
+                            <div>
+                                <h6 class="fw-bold mb-0">Ibu Siti Rahmawati</h6>
+                                <small class="text-success fw-semibold"><i class="fa-solid fa-circle-check me-1"></i>Pembeli Grand New Avanza</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="250">
+                    <div class="testi-card-modern h-100">
+                        <div class="text-warning mb-3"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="fst-italic text-secondary">"Tukar tambah mobil lama ke New Rush prosesnya transparan. Harga taksiran tinggi dan langsung memotong DP unit baru."</p>
+                        <div class="d-flex align-items-center gap-3 mt-4 pt-3 border-top">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" class="rounded-circle object-fit-cover" width="48" height="48" alt="Client">
+                            <div>
+                                <h6 class="fw-bold mb-0">Bpk. Kevin Sanjaya</h6>
+                                <small class="text-success fw-semibold"><i class="fa-solid fa-circle-check me-1"></i>Pembeli New Rush</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DASHBOARD COUNTER TRAFFIC & EVALUASI IMPROVEMENT BISNIS -->
+    <section id="traffic-section" class="section-py bg-dark-analytics text-white">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 gap-3" data-aos="fade-up">
                 <div>
-                    <span class="tag-analytics">DATA REAL-TIME PEBISNIS</span>
-                    <h2>Counter Traffic & Evaluasi Improvement</h2>
-                    <p>Memantau jumlah calon konsumen yang mampir ke toko dan mengklik pembelian produk sebagai acuan perbaikan bisnis.</p>
+                    <span class="badge bg-info text-dark fw-bold mb-2 px-3 py-2">LIVE BUSINESS INTELLIGENCE</span>
+                    <h2 class="fw-extrabold mb-1">Counter Traffic & Acuan Improvement Bisnis</h2>
+                    <p class="text-white-50 mb-0">Data real-time kunjungan toko, klik produk (termasuk arsip history), dan performa tim sales.</p>
                 </div>
-                <div class="db-status" id="dbStatusBadge">
-                    <span class="dot"></span> Mode Penyimpanan: Mengecek...
+                <div class="status-pill" id="dbConnectionBadge">
+                    <span class="pulse-dot"></span> Mengecek Database...
                 </div>
             </div>
 
             <!-- 4 KPI Utama -->
-            <div class="kpi-grid">
-                <div class="kpi-card">
-                    <span class="kpi-title">1. Calon Konsumen Mampir (Page Views)</span>
-                    <h3 id="statTotalViews">0</h3>
-                    <small>Total kunjungan halaman toko dibuka</small>
+            <div class="row g-4 mb-4">
+                <div class="col-12 col-sm-6 col-lg-3" data-aos="zoom-in" data-aos-delay="50">
+                    <div class="analytics-kpi-card">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-white-50 small">1. Total Pengunjung Mampir</span>
+                            <i class="fa-solid fa-store text-info"></i>
+                        </div>
+                        <h2 class="fw-extrabold my-2" id="statViews">0</h2>
+                        <small class="text-white-50">Total halaman toko dilihat</small>
+                    </div>
                 </div>
-                <div class="kpi-card">
-                    <span class="kpi-title">2. Pengunjung Unik (Orang Berbeda)</span>
-                    <h3 id="statUniqueVisitors">0</h3>
-                    <small>Jumlah calon pembeli unik yang datang</small>
+                <div class="col-12 col-sm-6 col-lg-3" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="analytics-kpi-card">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-white-50 small">2. Calon Konsumen Unik</span>
+                            <i class="fa-solid fa-users text-success"></i>
+                        </div>
+                        <h2 class="fw-extrabold my-2" id="statUnique">0</h2>
+                        <small class="text-white-50">Perangkat/orang berbeda</small>
+                    </div>
                 </div>
-                <div class="kpi-card">
-                    <span class="kpi-title">3. Klik Beli / Tanya Produk (Leads)</span>
-                    <h3 id="statTotalLeads">0</h3>
-                    <small>Jumlah aksi menekan tombol beli/WA</small>
+                <div class="col-12 col-sm-6 col-lg-3" data-aos="zoom-in" data-aos-delay="150">
+                    <div class="analytics-kpi-card">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-white-50 small">3. Total Klik Beli / Tanya</span>
+                            <i class="fa-solid fa-cart-Flatbed text-warning"></i>
+                        </div>
+                        <h2 class="fw-extrabold my-2" id="statLeads">0</h2>
+                        <small class="text-white-50">Interaksi menuju WhatsApp Sales</small>
+                    </div>
                 </div>
-                <div class="kpi-card kpi-accent">
-                    <span class="kpi-title">4. Conversion Rate (Rasio Pembelian)</span>
-                    <h3 id="statConversionRate">0%</h3>
-                    <small id="insightConversion">Menghitung efektivitas toko...</small>
+                <div class="col-12 col-sm-6 col-lg-3" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="analytics-kpi-card accent-kpi">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-white small fw-semibold">4. Conversion Rate</span>
+                            <i class="fa-solid fa-chart-line text-white"></i>
+                        </div>
+                        <h2 class="fw-extrabold my-2 text-white" id="statConv">0%</h2>
+                        <small class="text-white-50" id="statConvDesc">Rasio pengunjung yang membeli</small>
+                    </div>
                 </div>
             </div>
 
-            <!-- Tabel & Rekomendasi Improvement Otomatis -->
-            <div class="analytics-bottom-grid">
-                <div class="analytics-box">
-                    <h4><i class="fa-solid fa-ranking-star"></i> Performa Minat Beli per Mobil</h4>
-                    <p class="sub-text">Mengetahui produk mana yang paling diminati dan mana yang butuh evaluasi promo/harga:</p>
-                    <div id="productPerformanceList" class="perf-list">
-                        <!-- Diisi otomatis oleh JavaScript -->
+            <!-- Grafik Klik Produk (Termasuk History Produk Terhapus), Performa Sales & Rekomendasi Improvement -->
+            <div class="row g-4">
+                <div class="col-lg-5" data-aos="fade-up" data-aos-delay="100">
+                    <div class="analytics-panel h-100">
+                        <h5 class="fw-bold text-info mb-1"><i class="fa-solid fa-car me-2"></i>Data Klik Minat Beli Produk</h5>
+                        <p class="small text-white-50 mb-3">Termasuk history produk yang telah diarsipkan/dihapus oleh Admin:</p>
+                        <div id="productAnalyticsList" class="d-flex flex-column gap-3"></div>
                     </div>
                 </div>
 
-                <div class="analytics-box">
-                    <h4><i class="fa-solid fa-lightbulb"></i> Rekomendasi Improvement Otomatis</h4>
-                    <p class="sub-text">Acuan keputusan bisnis berdasarkan data Counter Traffic saat ini:</p>
-                    <ul class="improvement-list" id="improvementAdvice">
-                        <!-- Diisi otomatis oleh JavaScript -->
-                    </ul>
+                <div class="col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="analytics-panel h-100">
+                        <h5 class="fw-bold text-warning mb-1"><i class="fa-solid fa-headset me-2"></i>Trafik Kontak Sales</h5>
+                        <p class="small text-white-50 mb-3">Jumlah konsumen yang menghubungi masing-masing Sales:</p>
+                        <div id="salesAnalyticsList" class="d-flex flex-column gap-3"></div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="analytics-panel h-100">
+                        <h5 class="fw-bold text-success mb-1"><i class="fa-solid fa-lightbulb me-2"></i>Acuan Improvement Bisnis</h5>
+                        <p class="small text-white-50 mb-3">Rekomendasi otomatis berdasarkan data Counter Traffic real-time:</p>
+                        <ul class="improvement-ul" id="businessImprovementList"></ul>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER & KONTAK -->
-    <footer id="kontak" class="footer">
-        <div class="container footer-grid">
-            <div>
-                <h4>Mobil 1 Velocity</h4>
-                <p>Dealer resmi penjualan mobil baru dengan layanan tunai, kredit bunga ringan, dan tukar tambah terpercaya.</p>
+    <!-- FOOTER -->
+    <footer class="footer-section text-white pt-5 pb-4">
+        <div class="container">
+            <div class="row g-4 pb-4 border-bottom border-secondary border-opacity-25">
+                <div class="col-lg-5">
+                    <h4 class="fw-extrabold text-white mb-2"><i class="fa-solid fa-star text-warning me-2"></i>CAHAYA BINTANG MOTOR</h4>
+                    <p class="text-white-50 small pe-lg-5">
+                        Showroom & Dealer Resmi Penjualan Mobil Baru dengan jaminan harga terbaik, proses kredit tercepat, dan layanan purna jual terpercaya.
+                    </p>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <h6 class="fw-bold text-white mb-3">Navigasi Cepat</h6>
+                    <ul class="list-unstyled small d-flex flex-column gap-2">
+                        <li><a href="#beranda" class="text-white-50 text-decoration-none">Beranda</a></li>
+                        <li><a href="#katalog" class="text-white-50 text-decoration-none">Katalog Produk</a></li>
+                        <li><a href="#cara-transaksi" class="text-white-50 text-decoration-none">Cara Transaksi</a></li>
+                        <li><a href="#traffic-section" class="text-white-50 text-decoration-none">Counter Traffic</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-4">
+                    <h6 class="fw-bold text-white mb-3">Jam Operasional Showroom</h6>
+                    <p class="text-white-50 small mb-1"><i class="fa-regular fa-clock me-2 text-warning"></i>Senin - Sabtu: 08.00 - 18.00 WIB</p>
+                    <p class="text-white-50 small mb-0"><i class="fa-solid fa-location-dot me-2 text-warning"></i>jln lingkar selatan no 83, Jelawe, Serang, Kec. Serang, Kota Serang, Banten 42116</p>
+                </div>
             </div>
-            <div>
-                <h4>Jam Operasional</h4>
-                <p>Senin - Sabtu: 08.00 - 17.00 WIB<br>Minggu / Hari Libur: Dengan Janji Temu</p>
+            <div class="text-center pt-4 small text-white-50">
+                &copy; 2026 <strong>Cahaya Bintang Motor</strong>. All Rights Reserved.
             </div>
-            <div>
-                <h4>Hubungi Customer Support</h4>
-                <p><i class="fa-brands fa-whatsapp"></i> +62 812-9553-0462<br><i class="fa-solid fa-envelope"></i> sales@mobil1velocity.com</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Mobil 1 Velocity. Dilengkapi Sistem Counter Traffic & Analitik Bisnis.</p>
         </div>
     </footer>
 
-    <!-- EVALUASI 5: FITUR CUSTOMER SUPPORT (Floating Live Help) -->
-    <div class="cs-floating">
-        <a href="https://wa.me/6281295530462?text=Halo%20Customer%20Support%20Mobil%201%20Velocity,%20saya%20ingin%20bertanya%20mengenai%20unit%20mobil." 
-           target="_blank" 
-           class="cs-btn"
-           onclick="recordBuyIntent('cs_support', 'Customer Support Umum')">
-            <i class="fa-brands fa-whatsapp"></i>
-            <span>Customer Support</span>
-        </a>
+    <!-- TOMBOL FLOATING CUSTOMER SUPPORT (Membuka Popup 3 Kontak Sales) -->
+    <button class="floating-cs-btn shadow-lg" onclick="openSalesModal(null, 'Konsultasi Umum Customer Support')">
+        <i class="fa-brands fa-whatsapp fs-4"></i>
+        <span>Hubungi Sales</span>
+    </button>
+
+    <!-- =====================================================================
+         MODAL 1: POPUP PILIH 3 KONTAK SALES (DENGAN FOTO & NAMA DINAMIS)
+         ===================================================================== -->
+    <div class="modal fade" id="modalPilihSales" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+                <div class="modal-header bg-primary-gradient text-white border-0 py-3">
+                    <div>
+                        <span class="badge bg-warning text-dark fw-bold mb-1">RESPON CEPAT VIA WHATSAPP</span>
+                        <h5 class="modal-title fw-extrabold mb-0" id="selectedCarTitle">Pilih Sales Consultant Kami</h5>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="text-muted small mb-3">
+                        Silakan pilih salah satu Sales Resmi <strong>Cahaya Bintang Motor</strong> di bawah ini untuk konsultasi simulasi kredit, diskon DP, atau pemesanan unit:
+                    </p>
+                    <div id="salesModalList" class="d-flex flex-column gap-3">
+                        <!-- Diisi Dinamis dari Tabel sales_contacts -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- =====================================================================
+         MODAL 2: LOGIN ADMIN (MENGGUNAKAN TABEL USERS DI DATABASE)
+         ===================================================================== -->
+    <div class="modal fade" id="modalLoginAdmin" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header bg-dark text-white border-0">
+                    <h5 class="modal-title fw-bold"><i class="fa-solid fa-lock me-2 text-warning"></i>Login Admin</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="formLoginAdmin">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Username</label>
+                            <input type="text" class="form-control" id="loginUsername" placeholder="admin" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 fw-bold py-2">
+                            Masuk ke Dashboard
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         MODAL 3: DASHBOARD ADMIN FULLSCREEN (KELOLA BANNER, PRODUK, & 3 SALES)
+         ===================================================================== -->
+    <div class="modal fade" id="modalDashboardAdmin" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content bg-light">
+                <div class="modal-header bg-dark text-white py-3 px-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="fa-solid fa-gauge-high fs-3 text-warning"></i>
+                        <div>
+                            <h5 class="modal-title fw-extrabold mb-0">CMS Admin - Cahaya Bintang Motor</h5>
+                            <small class="text-white-50" id="adminWelcomeName">Kelola Banner Slideshow, Katalog Produk, & 3 Kontak Sales</small>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-warning btn-sm fw-bold" onclick="logoutAdmin()">
+                            <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+                        </button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                </div>
+
+                <div class="modal-body p-3 p-lg-4 container-fluid">
+                    <!-- Navigasi Tab Admin -->
+                    <ul class="nav nav-pills mb-4 gap-2 bg-white p-2 rounded-3 shadow-sm" id="adminTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active fw-bold" data-bs-toggle="pill" data-bs-target="#tabBanners" type="button">
+                                <i class="fa-solid fa-images me-1"></i> 1. Kelola Foto Banner Atas
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-bold" data-bs-toggle="pill" data-bs-target="#tabProducts" type="button">
+                                <i class="fa-solid fa-car-side me-1"></i> 2. Kelola Katalog Produk
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-bold" data-bs-toggle="pill" data-bs-target="#tabSales" type="button">
+                                <i class="fa-solid fa-address-book me-1"></i> 3. Kelola Kontak Sales (Popup)
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <!-- TAB 1: KELOLA BANNER (Jika >1 Otomatis Slideshow) -->
+                        <div class="tab-pane fade show active" id="tabBanners">
+                            <div class="row g-4">
+                                <div class="col-lg-4">
+                                    <div class="card border-0 shadow-sm rounded-4">
+                                        <div class="card-body p-4">
+                                            <h5 class="fw-bold mb-3" id="formBannerHeading">Tambah / Edit Banner</h5>
+                                            <form id="formBanner">
+                                                <input type="hidden" id="bannerId">
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold">Judul Utama Banner</label>
+                                                    <input type="text" class="form-control" id="bannerTitle" placeholder="Contoh: ALL NEW BR-V N7X" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold">Sub-Judul / Promo</label>
+                                                    <input type="text" class="form-control" id="bannerSubtitle" placeholder="DP Mulai 15 Jutaan..." required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold">Teks Label Badge</label>
+                                                    <input type="text" class="form-control" id="bannerBadge" placeholder="PROMO SPESIAL" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold">Upload Foto Banner (Supabase Storage)</label>
+                                                    <input type="file" class="form-control" id="bannerFile" accept="image/*">
+                                                    <small class="text-muted d-block mt-1">Atau isi path manual (misal: <code>img/banner-1.jpg</code>):</small>
+                                                    <input type="text" class="form-control form-control-sm mt-1" id="bannerUrlInput" placeholder="img/banner-1.jpg">
+                                                </div>
+                                                <div class="d-flex gap-2">
+                                                    <button type="submit" class="btn btn-primary fw-bold w-100" id="btnSaveBanner">Simpan Banner</button>
+                                                    <button type="button" class="btn btn-secondary" onclick="resetBannerForm()">Reset</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="card border-0 shadow-sm rounded-4">
+                                        <div class="card-body p-4">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <h5 class="fw-bold mb-0">Daftar Banner Aktif</h5>
+                                                <span class="badge bg-info text-dark" id="bannerCountInfo">0 Banner</span>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="table align-middle">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>Preview</th>
+                                                            <th>Judul & Subjudul</th>
+                                                            <th>Aksi</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="adminBannerTable"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 2: KELOLA PRODUK MOBIL -->
+                        <div class="tab-pane fade" id="tabProducts">
+                            <div class="row g-4">
+                                <div class="col-lg-4">
+                                    <div class="card border-0 shadow-sm rounded-4">
+                                        <div class="card-body p-4">
+                                            <h5 class="fw-bold mb-3" id="formProductHeading">Tambah / Edit Produk Mobil</h5>
+                                            <form id="formProduct">
+                                                <input type="hidden" id="productId">
+                                                <div class="mb-2">
+                                                    <label class="form-label small fw-bold">Nama Mobil</label>
+                                                    <input type="text" class="form-control" id="productName" placeholder="Contoh: All New Kijang Innova" required>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label class="form-label small fw-bold">Harga Mulai</label>
+                                                    <input type="text" class="form-control" id="productPrice" placeholder="Contoh: Rp 309.300.000" required>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label class="form-label small fw-bold">DP Mulai</label>
+                                                    <input type="text" class="form-control" id="productDp" placeholder="Contoh: Rp 20 Jutaan" required>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label class="form-label small fw-bold">Cicilan Mulai</label>
+                                                    <input type="text" class="form-control" id="productInstallment" placeholder="Contoh: Rp 3 Jutaan" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold">Upload Foto Mobil</label>
+                                                    <input type="file" class="form-control" id="productFile" accept="image/*">
+                                                    <small class="text-muted d-block mt-1">Atau path folder <code>img/</code>:</small>
+                                                    <input type="text" class="form-control form-control-sm mt-1" id="productUrlInput" placeholder="img/innova.png">
+                                                </div>
+                                                <div class="d-flex gap-2">
+                                                    <button type="submit" class="btn btn-success fw-bold w-100">Simpan Produk</button>
+                                                    <button type="button" class="btn btn-secondary" onclick="resetProductForm()">Reset</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="card border-0 shadow-sm rounded-4">
+                                        <div class="card-body p-4">
+                                            <h5 class="fw-bold mb-1">Daftar Katalog & History Klik Produk</h5>
+                                            <p class="text-muted small mb-3">Jika produk dihapus, produk disembunyikan dari halaman utama namun <strong>history jumlah klik tetap disimpan</strong> sebagai acuan bisnis.</p>
+                                            <div class="table-responsive">
+                                                <table class="table align-middle">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>Mobil</th>
+                                                            <th>Detail Harga / DP / Cicilan</th>
+                                                            <th>History Klik</th>
+                                                            <th>Status</th>
+                                                            <th>Aksi</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="adminProductTable"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 3: KELOLA KONTAK SALES (3 KONTAK DI POPUP) -->
+                        <div class="tab-pane fade" id="tabSales">
+                            <div class="row g-4">
+                                <div class="col-lg-4">
+                                    <div class="card border-0 shadow-sm rounded-4">
+                                        <div class="card-body p-4">
+                                            <h5 class="fw-bold mb-3" id="formSalesHeading">Tambah / Edit Kontak Sales</h5>
+                                            <form id="formSales">
+                                                <input type="hidden" id="salesId">
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold">Nama Lengkap Sales</label>
+                                                    <input type="text" class="form-control" id="salesName" placeholder="Contoh: Raka Pratama" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold">Jabatan / Spesialisasi</label>
+                                                    <input type="text" class="form-control" id="salesRole" placeholder="Contoh: Senior Sales Executive" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold">Nomor WhatsApp (Awali 62)</label>
+                                                    <input type="text" class="form-control" id="salesWa" placeholder="6281234567890" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold">Upload Foto Profil Sales</label>
+                                                    <input type="file" class="form-control" id="salesFile" accept="image/*">
+                                                    <input type="text" class="form-control form-control-sm mt-2" id="salesUrlInput" placeholder="img/sales-1.jpg">
+                                                </div>
+                                                <div class="d-flex gap-2">
+                                                    <button type="submit" class="btn btn-primary fw-bold w-100">Simpan Kontak Sales</button>
+                                                    <button type="button" class="btn btn-secondary" onclick="resetSalesForm()">Reset</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="card border-0 shadow-sm rounded-4">
+                                        <div class="card-body p-4">
+                                            <h5 class="fw-bold mb-3">Daftar Kontak Sales di Popup Pembelian</h5>
+                                            <div class="table-responsive">
+                                                <table class="table align-middle">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>Foto & Nama</th>
+                                                            <th>WhatsApp</th>
+                                                            <th>Total Dihubungi</th>
+                                                            <th>Aksi</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="adminSalesTable"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS: Bootstrap 5.3, Swiper, SweetAlert2, Supabase, & AOS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- AOS Script (Sesuai Dokumentasi Resmi) -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    
+    <!-- Main App JS -->
     <script src="js/app.js"></script>
 </body>
 </html>
