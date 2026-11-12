@@ -235,7 +235,7 @@ function renderProductCatalog(products) {
             <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="${aosDelay}">
                 <div class="car-card">
                     <div class="car-img-box">
-                        <img src="${item.image_url}" alt="${item.name}" onerror="this.src='${defaultCarImg}'">
+                        <img src="${item.image_url.split(',')[0]}" alt="${item.name}" onerror="this.src='${defaultCarImg}'">
                     </div>
                     <h3 class="car-title">${item.name}</h3>
                     <div class="car-specs-bars">
@@ -252,8 +252,8 @@ function renderProductCatalog(products) {
                             <strong>${item.installment_start}</strong>
                         </div>
                     </div>
-                    <button class="btn-buy-unit" onclick="openSalesModal(${item.id}, '${item.name.replace(/'/g, "\\'")}')">
-                        <i class="fa-brands fa-whatsapp me-2"></i>Beli / Tanya Unit
+                    <button class="btn-buy-unit" onclick="openProductDetail(${item.id})">
+                        <i class="fa-solid fa-eye me-2"></i>Lihat Detail Mobil
                     </button>
                 </div>
             </div>
@@ -656,10 +656,9 @@ document.getElementById('formProduct').addEventListener('submit', async (e) => {
     const installment_start = document.getElementById('productInstallment').value.trim();
 
     try {
-        const uploadedUrl = await uploadImageFile(
+        const uploadedUrl = await uploadMultipleImages(
             document.getElementById('productFile'),
-            document.getElementById('productUrlInput'),
-            'products'
+            document.getElementById('productUrlInput')
         );
 
         if (!uploadedUrl) {
@@ -844,3 +843,86 @@ document.addEventListener('DOMContentLoaded', async () => {
     await recordVisitorTraffic();
     await refreshAllUI();
 });
+
+
+// =========================================================================
+// FUNGSI BARU: GALLERY & MULTIPLE UPLOAD
+// =========================================================================
+
+// Fungsi untuk upload banyak gambar sekaligus
+async function uploadMultipleImages(fileInput, manualInput) {
+    const files = fileInput.files;
+    if (!files || files.length === 0) return manualInput.value.trim() || null;
+
+    let urls = [];
+    for (let i = 0; i < files.length; i++) {
+        if (isSupabaseReady && supabaseClient) {
+            const fileExt = files[i].name.split('.').pop();
+            const fileName = `products/${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
+            await supabaseClient.storage.from(STORAGE_BUCKET).upload(fileName, files[i], { upsert: true });
+            const { data } = supabaseClient.storage.from(STORAGE_BUCKET).getPublicUrl(fileName);
+            urls.push(data.publicUrl);
+        } else {
+            const base64 = await new Promise(res => {
+                const reader = new FileReader();
+                reader.onload = e => res(e.target.result);
+                reader.readAsDataURL(files[i]);
+            });
+            urls.push(base64);
+        }
+    }
+    return urls.join(','); // Gabungkan URL dengan koma
+}
+
+// Fungsi Buka Popup Detail ala Shopee
+async function openProductDetail(productId) {
+    const data = await fetchAllData();
+    const product = data.products.find(p => p.id === productId);
+    if(!product) return;
+
+    // Pecah string koma menjadi array foto
+    const images = product.image_url.split(',');
+    
+    // Render Foto Utama (Cover) & Fungsi Zoom SweetAlert2
+    const mainImg = document.getElementById('detailMainImage');
+    mainImg.src = images[0];
+    mainImg.onclick = () => {
+        Swal.fire({
+            imageUrl: mainImg.src,
+            imageAlt: 'Zoom Produk',
+            width: 'auto',
+            showConfirmButton: false,
+            showCloseButton: true,
+            background: 'transparent',
+            backdrop: 'rgba(0,0,0,0.85)'
+        });
+    };
+
+    // Render Thumbnail di bawahnya
+    document.getElementById('detailThumbnails').innerHTML = images.map((img, idx) => `
+        <img src="${img}" class="detail-thumb ${idx === 0 ? 'active' : ''}" 
+             onclick="changeMainDetailImage(this, '${img}')" onerror="this.style.display='none'">
+    `).join('');
+
+    // Isi Info Teks
+    document.getElementById('detailCarTitle').textContent = product.name;
+    document.getElementById('detailCarPrice').textContent = product.price_start;
+    document.getElementById('detailCarDp').textContent = product.dp_start;
+    document.getElementById('detailCarCicilan').textContent = product.installment_start;
+
+    // Saat tombol Beli di klik, tutup Detail lalu buka Popup 3 Sales
+    document.getElementById('btnDetailBeli').onclick = () => {
+        bootstrap.Modal.getInstance(document.getElementById('modalDetailMobil')).hide();
+        setTimeout(() => openSalesModal(product.id, product.name.replace(/'/g, "\\'")), 400);
+    };
+
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('modalDetailMobil')).show();
+}
+
+// Fungsi Ganti Gambar saat Thumbnail di-klik
+function changeMainDetailImage(element, imgSrc) {
+    document.getElementById('detailMainImage').src = imgSrc;
+    // Pindahkan class active
+    document.querySelectorAll('.detail-thumb').forEach(el => el.classList.remove('active'));
+    element.classList.add('active');
+}

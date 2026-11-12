@@ -633,10 +633,10 @@
                                                     <input type="text" class="form-control" id="productInstallment" placeholder="Contoh: Rp 3 Jutaan" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label class="form-label small fw-bold">Upload Foto Mobil</label>
-                                                    <input type="file" class="form-control" id="productFile" accept="image/*">
-                                                    <small class="text-muted d-block mt-1">Atau path folder <code>img/</code>:</small>
-                                                    <input type="text" class="form-control form-control-sm mt-1" id="productUrlInput" placeholder="img/innova.png">
+                                                    <label class="form-label small fw-bold">Upload Foto (Bisa Pilih Banyak Sekaligus)</label>
+<input type="file" class="form-control" id="productFile" accept="image/*" multiple>
+<small class="text-muted d-block mt-1">Atau path gambar manual (pisahkan dengan koma `,`):</small>
+<input type="text" class="form-control form-control-sm mt-1" id="productUrlInput" placeholder="img/depan.png,img/samping.png">
                                                 </div>
                                                 <div class="d-flex gap-2">
                                                     <button type="submit" class="btn btn-success fw-bold w-100">Simpan Produk</button>
@@ -769,6 +769,63 @@
                         <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Sandra Gustian</h6><small class="team-nim">250613094</small></div></div></div>
                         <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Nia Kaniasari</h6><small class="team-nim">250613070</small></div></div></div>
                         <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Vista Prawestri</h6><small class="team-nim">250613147</small></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         MODAL 5: DETAIL PRODUK MOBIL (GALERI SHOPEE STYLE)
+         ===================================================================== -->
+    <div class="modal fade" id="modalDetailMobil" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+                <div class="modal-header bg-white border-bottom py-3">
+                    <h5 class="modal-title fw-extrabold text-primary-dark">Detail Unit Kendaraan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 bg-soft-section">
+                    <div class="row g-4">
+                        <!-- Kiri: Galeri Foto -->
+                        <div class="col-md-6">
+                            <div class="shopee-gallery">
+                                <div class="main-img-box mb-3 shadow-sm rounded-3 overflow-hidden bg-white position-relative" style="cursor: zoom-in;" title="Klik untuk Zoom">
+                                    <img id="detailMainImage" src="" alt="Main Car" class="w-100 h-100 object-fit-cover">
+                                    <span class="badge bg-dark position-absolute bottom-0 end-0 m-2"><i class="fa-solid fa-magnifying-glass-plus"></i> Zoom</span>
+                                </div>
+                                <div class="thumb-list d-flex gap-2 overflow-x-auto pb-2" id="detailThumbnails">
+                                    <!-- Diisi Dinamis oleh JS -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Kanan: Info Harga & Beli -->
+                        <div class="col-md-6 d-flex flex-column">
+                            <span class="badge bg-warning text-dark align-self-start mb-2 fw-bold">PROMO DEALER</span>
+                            <h3 id="detailCarTitle" class="fw-extrabold mb-3 text-primary-dark">Nama Mobil</h3>
+                            
+                            <div class="bg-white p-3 rounded-3 border mb-4 shadow-sm">
+                                <div class="mb-2">
+                                    <small class="text-muted d-block">Harga OTR Mulai</small>
+                                    <h4 id="detailCarPrice" class="text-primary fw-extrabold mb-0">Rp 0</h4>
+                                </div>
+                                <hr class="my-2 border-secondary opacity-25">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="text-muted small">DP Ringan Mulai</span>
+                                    <strong id="detailCarDp">Rp 0</strong>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted small">Cicilan Mulai</span>
+                                    <strong id="detailCarCicilan">Rp 0</strong>
+                                </div>
+                            </div>
+
+                            <p class="small text-muted mb-4"><i class="fa-solid fa-shield-halved text-success me-1"></i> Transaksi aman langsung ke rekening resmi Cahaya Bintang Motor. Tersedia fasilitas test drive ke rumah.</p>
+
+                            <button id="btnDetailBeli" class="btn btn-success btn-lg fw-bold w-100 mt-auto shadow">
+                                <i class="fa-brands fa-whatsapp me-2"></i> Lanjut Pilih Sales
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

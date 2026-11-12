@@ -239,21 +239,21 @@ html, body {
 }
 
 .car-img-box {
-    height: 185px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: radial-gradient(circle, #f8fafc 0%, #f1f5f9 100%);
+    width: 100%;
+    aspect-ratio: 4 / 3; /* Membuat dimensi kotak konsisten untuk semua kartu */
+    display: block; /* Menghilangkan flex center agar tidak bentrok dengan cover */
+    background: #f1f5f9;
     border-radius: 12px;
-    padding: 12px;
     margin-bottom: 16px;
     overflow: hidden;
+    padding: 0; /* Hapus padding agar foto menempel ke ujung kotak */
 }
 
 .car-img-box img {
-    max-height: 160px;
-    max-width: 100%;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Memaksa foto memenuhi seluruh kotak tanpa gepeng */
+    object-position: center 80%; /* Memastikan titik fokus selalu di tengah foto */
     transition: transform 0.4s ease;
 }
 
@@ -623,4 +623,49 @@ html, body {
     color: #64748b;
     display: block;
     font-weight: 500;
+}
+
+/* =======================================================
+   SHOPEE STYLE GALLERY (PRODUCT DETAIL)
+   ======================================================= */
+.shopee-gallery .main-img-box {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s;
+    border-radius: 12px;
+    overflow: hidden;
+    padding: 0; /* Hilangkan padding */
+}
+.shopee-gallery .main-img-box:hover {
+    border-color: var(--primary-blue);
+}
+.shopee-gallery .thumb-list::-webkit-scrollbar {
+    height: 6px;
+}
+.shopee-gallery .thumb-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+/* Mengatur titik fokus gambar di popup detail mobil */
+#detailMainImage {
+    object-position: center 80%;
+}
+
+.detail-thumb {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    background: #fff;
+    padding: 2px;
+    transition: 0.2s;
+    flex-shrink: 0;
+}
+.detail-thumb:hover, .detail-thumb.active {
+    border-color: var(--primary-blue);
+    transform: translateY(-2px);
 }
