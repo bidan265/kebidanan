@@ -49,6 +49,7 @@
                     <li class="nav-item"><a class="nav-link" href="#cara-transaksi">Cara Transaksi</a></li>
                     <li class="nav-item"><a class="nav-link" href="#testimoni">Testimoni</a></li>
                     <li class="nav-item"><a class="nav-link" href="#traffic-section"><i class="fa-solid fa-chart-pie me-1 text-primary"></i>Counter Traffic</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold text-primary" href="#lokasi"><i class="fa-solid fa-map-location-dot me-1"></i>Lokasi Kami</a></li>
                     <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
                         <button class="btn btn-admin-nav w-100" id="btnNavAdmin" onclick="openAdminGate()">
                             <i class="fa-solid fa-user-shield me-1"></i> <span id="adminNavText">Panel Admin</span>
@@ -352,6 +353,62 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- SECTION LOKASI SHOWROOM -->
+    <section id="lokasi" class="section-py bg-soft-section">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <div class="skew-badge mb-2">KUNJUNGI SHOWROOM</div>
+                <h2 class="section-title">Lokasi Cahaya Bintang Motor</h2>
+                <p class="text-muted mx-auto" style="max-width: 600px;">
+                    Datang dan lihat langsung unit impian Anda. Kami siap melayani test drive dan konsultasi langsung di tempat.
+                </p>
+            </div>
+            
+            <div class="row justify-content-center" data-aos="zoom-in" data-aos-duration="800">
+                <div class="col-lg-10">
+                    <!-- Card Map Interaktif (Bisa di-klik seluruh areanya) -->
+                    <a href="https://maps.app.goo.gl/91pu6iFbRXH5YZCK8" target="_blank" class="card text-decoration-none border-0 shadow-lg rounded-4 overflow-hidden map-card-interactive">
+                        
+                        <div class="map-bg-image d-flex flex-column align-items-center justify-content-center">
+                            <div class="map-pulse-marker">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <button class="btn btn-primary btn-lg rounded-pill px-4 fw-bold shadow mt-5" style="pointer-events: none;">
+                                <i class="fa-solid fa-diamond-turn-right me-2"></i>Buka di Google Maps
+                            </button>
+                        </div>
+
+                        <div class="card-body p-4 bg-white d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                            <div>
+                                <h5 class="fw-bold mb-1 text-primary-dark"><i class="fa-solid fa-building-flag me-2 text-warning"></i>Cahaya Bintang Motor</h5>
+                                <p class="text-muted small mb-0 text-body">Pusat penjualan mobil baru & tukar tambah. Klik untuk memulai navigasi rute terbaik.</p>
+                            </div>
+                            <span class="btn btn-outline-primary fw-bold rounded-pill px-4 flex-shrink-0">
+                                Dapatkan Rute Peta <i class="fa-solid fa-arrow-right ms-1"></i>
+                            </span>
+                        </div>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION TIM PENGEMBANG (TOMBOL TRIGGER POPUP) -->
+    <section id="tim-pengembang" class="section-py bg-white border-top text-center">
+        <div class="container" data-aos="fade-up">
+            <div class="skew-badge mb-2 bg-success text-white">UNIVERSITAS ABDI NUSANTARA</div>
+            <h2 class="section-title">Tim Pengembang Project</h2>
+            <p class="text-muted mx-auto mb-4" style="max-width: 600px;">
+                Website Counter Traffic & Analitik Bisnis ini dikembangkan oleh tim tangguh dari mahasiswa Universitas Abdi Nusantara.
+            </p>
+            <!-- Tombol ini akan memanggil Modal/Popup -->
+            <button class="btn btn-success btn-lg rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#modalTimPengembang">
+                <i class="fa-solid fa-users me-2"></i>Lihat 20 Anggota Tim
+            </button>
         </div>
     </section>
 
@@ -670,6 +727,48 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         MODAL 4: POPUP TIM PENGEMBANG (UNIVERSITAS ABDI NUSANTARA)
+         ===================================================================== -->
+    <div class="modal fade" id="modalTimPengembang" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header bg-success text-white border-0 py-3">
+                    <div>
+                        <span class="badge bg-warning text-dark fw-bold mb-1">UNIVERSITAS ABDI NUSANTARA</span>
+                        <h5 class="modal-title fw-extrabold mb-0">Tim Pengembang Project</h5>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 bg-light">
+                    <!-- Grid diatur menjadi 2 kolom di HP, 3 kolom di Tablet/Desktop agar pas di dalam popup -->
+                    <div class="row row-cols-2 row-cols-md-3 g-3">
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Vera Veronica</h6><small class="team-nim">250613114</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Tresalani Utami</h6><small class="team-nim">250613039</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Rahmi</h6><small class="team-nim">250613025</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Iin Farlina</h6><small class="team-nim">250613084</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Saruni Agustin</h6><small class="team-nim">250613128</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Kiki Icha</h6><small class="team-nim">250613100</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Nunung Nurindah</h6><small class="team-nim">250613110</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Wiwin Winarti</h6><small class="team-nim">250613113</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Dian Anggraini P.</h6><small class="team-nim">250613135</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Riska Ismayanti</h6><small class="team-nim">250613136</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Puput Nurbiha</h6><small class="team-nim">250613131</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Dede Laras</h6><small class="team-nim">250613144</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Misi Hijrah Aini</h6><small class="team-nim">250613016</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Cicik Nonita</h6><small class="team-nim">250613085</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Danti Iin</h6><small class="team-nim">250613130</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Gina Pratiwi</h6><small class="team-nim">250613152</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Reni Melindawati</h6><small class="team-nim">250613151</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Sandra Gustian</h6><small class="team-nim">250613094</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Nia Kaniasari</h6><small class="team-nim">250613070</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Vista Prawestri</h6><small class="team-nim">250613147</small></div></div></div>
                     </div>
                 </div>
             </div>

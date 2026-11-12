@@ -505,3 +505,122 @@ html, body {
         border-radius: 50%;
     }
 }
+
+/* =======================================================
+   MAP CARD INTERACTIVE STYLING
+   ======================================================= */
+.map-card-interactive {
+    transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: block;
+}
+
+.map-card-interactive:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(11, 94, 215, 0.15) !important;
+}
+
+.map-bg-image {
+    height: 320px;
+    background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+    position: relative;
+    border-bottom: 3px solid var(--accent-gold);
+}
+
+.map-bg-image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(7, 42, 96, 0.5); /* Overlay gelap agar tombol mencolok */
+    transition: background 0.3s ease;
+}
+
+.map-card-interactive:hover .map-bg-image::before {
+    background: rgba(7, 42, 96, 0.3); /* Menerang saat di-hover */
+}
+
+.map-bg-image > * {
+    position: relative;
+    z-index: 2;
+}
+
+.map-pulse-marker {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ef4444; /* Merah khas Google Maps */
+    font-size: 3.5rem;
+    animation: pulseMarker 2s infinite;
+}
+
+/* Animasi Marker Berdetak (Hidup) */
+@keyframes pulseMarker {
+    0% { transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0 0 0 rgba(239, 68, 68, 0.7)); }
+    70% { transform: translate(-50%, -50%) scale(1.15); filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0)); }
+    100% { transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0 0 0 rgba(239, 68, 68, 0)); }
+}
+
+@media (max-width: 767.98px) {
+    .map-bg-image {
+        height: 250px;
+    }
+}
+
+
+/* =======================================================
+   TIM PENGEMBANG (GRID CARD KECIL)
+   ======================================================= */
+.team-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 12px 14px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.team-card:hover {
+    border-color: #22c55e;
+    background: #f0fdf4;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 15px rgba(34, 197, 94, 0.1);
+}
+
+.team-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: var(--bg-soft);
+    color: var(--primary-blue);
+    border-radius: 50%;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.team-card:hover .team-icon {
+    background: #22c55e;
+    color: #ffffff;
+}
+
+.team-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.team-nim {
+    font-size: 0.75rem;
+    color: #64748b;
+    display: block;
+    font-weight: 500;
+}
