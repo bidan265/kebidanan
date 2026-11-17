@@ -217,7 +217,7 @@ function renderHeroBanners(banners) {
 }
 
 // =========================================================================
-// 6. RENDER KATALOG PRODUK (HANYA YANG AKTIF + EFEK AOS)
+// 6. RENDER KATALOG PRODUK & CARD JAMINAN MUTU (MENGISI RUANG KOSONG)
 // =========================================================================
 function renderProductCatalog(products) {
     const grid = document.getElementById('productCatalogGrid');
@@ -229,7 +229,8 @@ function renderProductCatalog(products) {
         return;
     }
 
-    grid.innerHTML = activeProducts.map((item, idx) => {
+    // 1. Render Semua Kartu Mobil
+    let htmlContent = activeProducts.map((item, idx) => {
         const aosDelay = (idx % 3) * 100;
         return `
             <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="${aosDelay}">
@@ -260,7 +261,37 @@ function renderProductCatalog(products) {
         `;
     }).join('');
 
-    // Panggil AOS.refreshHard() sesuai dokumentasi saat elemen DOM baru dimuat secara dinamis
+    // 2. Tambahkan Card "JAMINAN MUTU" di Akhir Grid untuk Mengisi Ruang Kosong
+    // Delay animasi dihitung dari jumlah produk agar muncul berurutan
+    const trustDelay = (activeProducts.length % 3) * 100;
+    
+    htmlContent += `
+        <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="${trustDelay}">
+            <div class="trust-card h-100 p-4 rounded-4 position-relative overflow-hidden shadow-sm border">
+                <div class="trust-bg-overlay"></div>
+                <div class="position-relative z-1 text-white h-100 d-flex flex-column">
+                    <span class="badge bg-warning text-dark align-self-start mb-3 fw-bold"><i class="fa-solid fa-medal me-1"></i> JAMINAN QUALITY</span>
+                    <h3 class="fw-extrabold mb-3">Mobil Siap Pakai, <br>Tanpa PR!</h3>
+                    
+                    <ul class="list-unstyled mb-4 small flex-grow-1">
+                        <li class="mb-2"><i class="fa-solid fa-circle-check text-success me-2 bg-white rounded-circle"></i> <strong>Lulus Inspeksi Mesin:</strong> Telah melalui proses Tune Up profesional.</li>
+                        <li class="mb-2"><i class="fa-solid fa-circle-check text-success me-2 bg-white rounded-circle"></i> <strong>Eksterior Mulus:</strong> Perbaikan baret & full poles body.</li>
+                        <li><i class="fa-solid fa-circle-check text-success me-2 bg-white rounded-circle"></i> <strong>Dokumen Terjamin:</strong> Surat-surat kendaraan asli & legal.</li>
+                    </ul>
+                    
+                    <div class="d-flex gap-2 mt-auto">
+                        <img src="https://images.unsplash.com/photo-1632733711679-529326f6db12?auto=format&fit=crop&w=150&q=80" class="rounded-3 border border-2 border-white object-fit-cover" width="70" height="70" alt="Tune Up" title="Proses Tune Up Mesin">
+                        <img src="https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=150&q=80" class="rounded-3 border border-2 border-white object-fit-cover" width="70" height="70" alt="Poles Body" title="Proses Poles Body & Salon">
+                    </div>
+                    <a href="#jaminan-mutu" class="btn btn-warning btn-sm fw-bold mt-3">Lihat Bukti Tune Up & Poles <i class="fa-solid fa-arrow-down ms-1"></i></a>
+                </div>
+            </div>
+        </div>
+    `;
+
+    grid.innerHTML = htmlContent;
+
+    // Panggil AOS.refreshHard() sesuai dokumentasi
     AOS.refreshHard();
 }
 
@@ -925,4 +956,97 @@ function changeMainDetailImage(element, imgSrc) {
     // Pindahkan class active
     document.querySelectorAll('.detail-thumb').forEach(el => el.classList.remove('active'));
     element.classList.add('active');
+}
+
+// =========================================================================
+// FITUR JAMINAN QUALITY / MUTU INTERAKTIF (FILTER, ZOOM BUKTI, & SERTIFIKAT)
+// =========================================================================
+
+// 1. Filter Tab Tahapan Jaminan Mutu (Tune Up, Poles Body, Dll)
+function filterQualityTab(category, btnEl) {
+    document.querySelectorAll('.btn-quality-filter').forEach(btn => btn.classList.remove('active'));
+    btnEl.classList.add('active');
+
+    const items = document.querySelectorAll('.quality-item');
+    items.forEach(item => {
+        if (category === 'all' || item.getAttribute('data-category') === category) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+    AOS.refreshHard();
+}
+
+// 2. Zoom Foto Bukti Tune Up & Poles Body
+function zoomQualityPhoto(imgUrl, captionText) {
+    Swal.fire({
+        imageUrl: imgUrl,
+        imageAlt: captionText,
+        title: '<span class="fs-6 fw-bold text-white">' + captionText + '</span>',
+        width: '750px',
+        showConfirmButton: false,
+        showCloseButton: true,
+        background: '#0f172a',
+        backdrop: 'rgba(0,0,0,0.88)'
+    });
+}
+
+// 3. Popup Detail Sertifikat Inspeksi & Standar Mobil Siap Pakai
+function showInspectionCertificate(stageTitle) {
+    Swal.fire({
+        title: `<i class="fa-solid fa-file-circle-check text-success me-2"></i>Standar Lulus QC: ${stageTitle}`,
+        html: `
+            <div class="text-start small">
+                <div class="alert alert-success py-2 mb-3">
+                    <strong><i class="fa-solid fa-shield-heart me-1"></i>Jaminan Trust Konsumen:</strong> Setiap unit dilengkapi berita acara pemeriksaan bengkel sebelum diserahkan ke pembeli.
+                </div>
+                <table class="table table-sm table-bordered mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Komponen Pemeriksaan</th>
+                            <th>kondisi Standar</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mesin & Transmisi (Tune Up)</td>
+                            <td>Oli baru, tarikan responsif, bebas rembes</td>
+                            <td><span class="badge bg-success">LULUS</span></td>
+                        </tr>
+                        <tr>
+                            <td>Eksterior & Cat (Poles Body)</td>
+                            <td>Bebas baret, sudah *buffing* & *waxing*</td>
+                            <td><span class="badge bg-success">LULUS</span></td>
+                        </tr>
+                        <tr>
+                            <td>Struktur Rangka & Kolong</td>
+                            <td>Bebas tabrak besar & bebas banjir</td>
+                            <td><span class="badge bg-success">LULUS</span></td>
+                        </tr>
+                        <tr>
+                            <td>Kelistrikan, AC & Kaki-kaki</td>
+                            <td>AC dingin, suspensi senyap, rem pakem</td>
+                            <td><span class="badge bg-success">LULUS</span></td>
+                        </tr>
+                        <tr>
+                            <td>Dokumen (BPKB, STNK, Faktur)</td>
+                            <td>Cek fisik sah & terverifikasi asli</td>
+                            <td><span class="badge bg-success">LULUS</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        `,
+        width: '650px',
+        confirmButtonText: '<i class="fa-brands fa-whatsapp me-1"></i> Minta Laporan Inspeksi Unit ke Sales',
+        confirmButtonColor: '#16a34a',
+        showCancelButton: true,
+        cancelButtonText: 'Tutup'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            openSalesModal(null, `Laporan Inspeksi & Jaminan Mutu (${stageTitle})`);
+        }
+    });
 }

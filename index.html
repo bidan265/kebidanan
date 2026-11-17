@@ -46,6 +46,7 @@
                 <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2 pt-3 pt-lg-0">
                     <li class="nav-item"><a class="nav-link active" href="#beranda">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link" href="#katalog">Katalog Mobil</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold text-success" href="#jaminan-mutu"><i class="fa-solid fa-shield-check me-1"></i>Jaminan Mutu</a></li>
                     <li class="nav-item"><a class="nav-link" href="#cara-transaksi">Cara Transaksi</a></li>
                     <li class="nav-item"><a class="nav-link" href="#testimoni">Testimoni</a></li>
                     <li class="nav-item"><a class="nav-link" href="#traffic-section"><i class="fa-solid fa-chart-pie me-1 text-primary"></i>Counter Traffic</a></li>
@@ -132,6 +133,152 @@
 
             <!-- Grid Katalog Mobil (Diisi Dinamis oleh JS) -->
             <div class="row g-4" id="productCatalogGrid"></div>
+        </div>
+    </section>
+
+    <!-- FITUR JAMINAN QUALITY / MUTU (TRUST KONSUMEN - MOBIL SIAP PAKAI) -->
+    <section id="jaminan-mutu" class="section-py bg-white border-top border-bottom position-relative">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <div class="skew-badge mb-2" style="background: linear-gradient(135deg, #15803d, #16a34a);">100% CUSTOMER TRUST GUARANTEE</div>
+                <h2 class="section-title">Fitur Jaminan Quality & Mutu: Mobil Siap Pakai!</h2>
+                <p class="text-muted mx-auto" style="max-width: 720px;">
+                    Setiap unit di <strong>Cahaya Bintang Motor</strong> wajib melewati 3 tahapan rekondisi ketat sebelum dipajang. Konsumen terima beres, langsung siap pakai jalan jauh tanpa biaya perbaikan tambahan!
+                </p>
+
+                <!-- Filter Tab Interaktif -->
+                <div class="d-inline-flex flex-wrap justify-content-center gap-2 bg-soft-section p-2 rounded-pill border mt-3">
+                    <button class="btn btn-sm rounded-pill px-3 py-2 fw-bold btn-quality-filter active" onclick="filterQualityTab('all', this)">
+                        <i class="fa-solid fa-layer-group me-1"></i> Semua Tahapan (3)
+                    </button>
+                    <button class="btn btn-sm rounded-pill px-3 py-2 fw-bold btn-quality-filter" onclick="filterQualityTab('tuneup', this)">
+                        <i class="fa-solid fa-screwdriver-wrench me-1"></i> a. Tune Up Mesin
+                    </button>
+                    <button class="btn btn-sm rounded-pill px-3 py-2 fw-bold btn-quality-filter" onclick="filterQualityTab('poles', this)">
+                        <i class="fa-solid fa-wand-magic-sparkles me-1"></i> b. Poles Body & Baret
+                    </button>
+                    <button class="btn btn-sm rounded-pill px-3 py-2 fw-bold btn-quality-filter" onclick="filterQualityTab('dll', this)">
+                        <i class="fa-solid fa-file-shield me-1"></i> c. Kaki-kaki, Interior & Surat
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid 3 Bukti Pengerjaan (Gambar Bisa Di-Zoom) -->
+            <div class="row g-4" id="qualityFeatureGrid">
+                
+                <!-- POIN A: GAMBAR MOBIL SEDANG DI TUNE UP -->
+                <div class="col-lg-4 quality-item" data-category="tuneup" data-aos="fade-up" data-aos-delay="50">
+                    <div class="quality-feature-card h-100">
+                        <div class="quality-img-wrapper" onclick="zoomQualityPhoto('https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1200&q=85', 'Proses Tune Up & Kalibrasi Mesin — Mobil Siap Pakai Tanpa PR')">
+                            <span class="quality-step-badge bg-primary">TAHAP 1 • MESIN PRIMA</span>
+                            <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=800&q=80" alt="Mobil Sedang Tune Up">
+                            <div class="quality-zoom-hint"><i class="fa-solid fa-magnifying-glass-plus me-1"></i> Klik Perbesar Foto</div>
+                        </div>
+                        <div class="p-4 d-flex flex-column flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-success-subtle text-success fw-bold"><i class="fa-solid fa-check-double me-1"></i>Lulus Inspeksi 100%</span>
+                                <small class="text-muted fw-bold">Standar Bengkel Resmi</small>
+                            </div>
+                            <h4 class="fw-extrabold text-primary-dark mb-2">Tune Up & Peremajaan Mesin</h4>
+                            <p class="text-muted small mb-3">
+                                Menjawab <em>"Mobil siap pakai apa?"</em> — Sektor dapur pacu telah diservis total sehingga langsung siap dipakai perjalanan luar kota:
+                            </p>
+                            <ul class="quality-checklist list-unstyled small mb-4 flex-grow-1">
+                                <li><i class="fa-solid fa-circle-check text-success"></i> <strong>Ganti Oli & Filter Baru:</strong> Pelumas mesin diganti baru sebelum serah terima.</li>
+                                <li><i class="fa-solid fa-circle-check text-success"></i> <strong>Pembersihan Ruang Bakar:</strong> Kalibrasi injektor, throttle body, dan busi.</li>
+                                <li><i class="fa-solid fa-circle-check text-success"></i> <strong>Scanner ECU & Kelistrikan:</strong> 0% *error code*, aki sehat, dan bebas bekas banjir.</li>
+                            </ul>
+                            <button class="btn btn-outline-primary w-100 fw-bold rounded-3" onclick="showInspectionCertificate('Tune Up & Inspeksi Mesin')">
+                                <i class="fa-solid fa-clipboard-check me-1"></i> Lihat Detail Standar Mesin
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- POIN B: GAMBAR PERBAIKAN POLES BODY UNTUK PERBAIKAN BARET -->
+                <div class="col-lg-4 quality-item" data-category="poles" data-aos="fade-up" data-aos-delay="150">
+                    <div class="quality-feature-card h-100">
+                        <div class="quality-img-wrapper" onclick="zoomQualityPhoto('https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=1200&q=85', 'Proses Poles Body & Paint Correction — Menghilangkan Baret Halus Hingga Mengkilap Seperti Baru')">
+                            <span class="quality-step-badge bg-warning text-dark">TAHAP 2 • EKSTERIOR MULUS</span>
+                            <img src="https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=800&q=80" alt="Perbaikan Poles Body Mobil">
+                            <div class="quality-zoom-hint"><i class="fa-solid fa-magnifying-glass-plus me-1"></i> Klik Perbesar Foto</div>
+                        </div>
+                        <div class="p-4 d-flex flex-column flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-warning-subtle text-dark fw-bold"><i class="fa-solid fa-sparkles me-1"></i>Bebas Baret & Kusam</span>
+                                <small class="text-muted fw-bold">3-Step Detailing</small>
+                            </div>
+                            <h4 class="fw-extrabold text-primary-dark mb-2">Poles Body & Hilangkan Baret</h4>
+                            <p class="text-muted small mb-3">
+                                Bodi mobil dikembalikan ke kondisi mulus mengkilap seperti keluar dari *showroom* baru melalui proses *Auto Detailing*:
+                            </p>
+                            <ul class="quality-checklist list-unstyled small mb-4 flex-grow-1">
+                                <li><i class="fa-solid fa-circle-check text-success"></i> <strong>Paint Correction (Hapus Baret):</strong> Menghilangkan baret halus, *swirl mark*, dan jamur kaca.</li>
+                                <li><i class="fa-solid fa-circle-check text-success"></i> <strong>Poles Full Body & Waxing:</strong> Cat kembali basah (*wet look*) dan terlindungi dari sinar UV.</li>
+                                <li><i class="fa-solid fa-circle-check text-success"></i> <strong>Jaminan Bebas Laka Berat:</strong> Tulang rangka utuh, presisi, dan bukan bekas tabrakan.</li>
+                            </ul>
+                            <button class="btn btn-outline-primary w-100 fw-bold rounded-3" onclick="showInspectionCertificate('Poles Body & Rekondisi Baret')">
+                                <i class="fa-solid fa-clipboard-check me-1"></i> Lihat Detail Standar Body
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- POIN C: DLL (SALON INTERIOR, KAKI-KAKI, AC & DOKUMEN ASLI) -->
+                <div class="col-lg-4 quality-item" data-category="dll" data-aos="fade-up" data-aos-delay="250">
+                    <div class="quality-feature-card h-100">
+                        <div class="quality-img-wrapper" onclick="zoomQualityPhoto('https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=1200&q=85', 'Detailing Interior, Pengecekan Kaki-Kaki & Jaminan Keaslian Dokumen Kendaraan')">
+                            <span class="quality-step-badge bg-success">TAHAP 3 • KENYAMANAN & LEGALITAS</span>
+                            <img src="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=800&q=80" alt="Inspeksi Kaki-kaki dan Interior">
+                            <div class="quality-zoom-hint"><i class="fa-solid fa-magnifying-glass-plus me-1"></i> Klik Perbesar Foto</div>
+                        </div>
+                        <div class="p-4 d-flex flex-column flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-info-subtle text-primary fw-bold"><i class="fa-solid fa-shield-halved me-1"></i>100% Aman & Nyaman</span>
+                                <small class="text-muted fw-bold">Garansi Uang Kembali</small>
+                            </div>
+                            <h4 class="fw-extrabold text-primary-dark mb-2">Interior, Kaki-Kaki & Surat Asli</h4>
+                            <p class="text-muted small mb-3">
+                                Kenyamanan kabin, keamanan pengereman, hingga keabsahan surat-surat dijamin penuh untuk ketenangan pikiran Anda:
+                            </p>
+                            <ul class="quality-checklist list-unstyled small mb-4 flex-grow-1">
+                                <li><i class="fa-solid fa-circle-check text-success"></i> <strong>Salon Kabin & AC Menggigil:</strong> Cuci uap jok/plafon, *fogging* anti-bakteri, dan cek freon AC.</li>
+                                <li><i class="fa-solid fa-circle-check text-success"></i> <strong>Inspeksi Kaki-Kaki & Rem:</strong> Suspensi empuk tanpa bunyi gluduk, kampas rem tebal.</li>
+                                <li><i class="fa-solid fa-circle-check text-success"></i> <strong>Jaminan Dokumen Sah:</strong> BPKB, STNK, Faktur & Cek Fisik Samsat dijamin 100% asli.</li>
+                            </ul>
+                            <button class="btn btn-outline-primary w-100 fw-bold rounded-3" onclick="showInspectionCertificate('Kaki-Kaki, Kabin & Legalitas Surat')">
+                                <i class="fa-solid fa-clipboard-check me-1"></i> Lihat Garansi & Legalitas
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Banner Ringkasan Jaminan Trust Konsumen -->
+            <div class="trust-guarantee-banner mt-5 p-4 rounded-4 text-white shadow" data-aos="zoom-in">
+                <div class="row align-items-center g-3">
+                    <div class="col-lg-8">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="guarantee-seal">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <div>
+                                <span class="badge bg-warning text-dark fw-bold mb-1">JAMINAN TRUST KE KONSUMEN</span>
+                                <h4 class="fw-extrabold mb-1">Garansi 100% Uang Kembali Jika Tidak Sesuai Standar!</h4>
+                                <p class="small text-white-50 mb-0">
+                                    Seluruh unit yang kami serahkan sudah berstatus <strong>"Mobil Siap Pakai"</strong> (Lulus Tune Up, Bebas Baret, Bebas Banjir/Tabrak, & Dokumen Sah).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-lg-end">
+                        <button class="btn btn-warning btn-lg fw-extrabold rounded-pill px-4 shadow-sm w-100 w-lg-auto" onclick="openSalesModal(null, 'Tanya Jaminan Mutu & Jadwal Cek Unit')">
+                            <i class="fa-brands fa-whatsapp me-2"></i>Jadwalkan Cek Unit & Test Drive
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -424,12 +571,20 @@
                 </div>
                 <div class="col-6 col-lg-3">
                     <h6 class="fw-bold text-white mb-3">Navigasi Cepat</h6>
-                    <ul class="list-unstyled small d-flex flex-column gap-2">
+                    <ul class="list-unstyled small d-flex flex-column gap-2 mb-4">
                         <li><a href="#beranda" class="text-white-50 text-decoration-none">Beranda</a></li>
                         <li><a href="#katalog" class="text-white-50 text-decoration-none">Katalog Produk</a></li>
                         <li><a href="#cara-transaksi" class="text-white-50 text-decoration-none">Cara Transaksi</a></li>
                         <li><a href="#traffic-section" class="text-white-50 text-decoration-none">Counter Traffic</a></li>
                     </ul>
+                    
+                    <!-- Tambahan Ikon Sosial Media -->
+                    <h6 class="fw-bold text-white mb-2">Ikuti Kami</h6>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-white fs-4 hover-gold transition-02" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="text-white fs-4 hover-gold transition-02" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#" class="text-white fs-4 hover-gold transition-02" title="Facebook"><i class="fa-brands fa-square-facebook"></i></a>
+                    </div>
                 </div>
                 <div class="col-6 col-lg-4">
                     <h6 class="fw-bold text-white mb-3">Jam Operasional Showroom</h6>
@@ -438,9 +593,11 @@
                 </div>
             </div>
             <div class="text-center pt-4 small text-white-50">
-                &copy; 2026 <strong>Riyadi Fajrin</strong>. 087881965963 All Rights Reserved.
+                &copy; 2026 <strong>Cahaya Bintang Motor</strong>. All Rights Reserved.
             </div>
         </div>
+
+
     </footer>
 
     <!-- TOMBOL FLOATING CUSTOMER SUPPORT (Membuka Popup 3 Kontak Sales) -->
@@ -766,7 +923,7 @@
                         <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Danti Iin</h6><small class="team-nim">250613130</small></div></div></div>
                         <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Gina Pratiwi</h6><small class="team-nim">250613152</small></div></div></div>
                         <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Reni Melindawati</h6><small class="team-nim">250613151</small></div></div></div>
-                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Srimulyati</h6><small class="team-nim">250613159</small></div></div></div>
+                        <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Sandra Gustian</h6><small class="team-nim">250613094</small></div></div></div>
                         <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Nia Kaniasari</h6><small class="team-nim">250613070</small></div></div></div>
                         <div class="col"><div class="team-card"><i class="fa-solid fa-user-graduate team-icon"></i><div><h6 class="team-name">Vista Prawestri</h6><small class="team-nim">250613147</small></div></div></div>
                     </div>
